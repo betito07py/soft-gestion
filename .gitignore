@@ -1,24 +1,79 @@
-# Visual Studio
+# =========================
+# Visual Studio / .NET
+# =========================
 .vs/
-**/bin/
-**/obj/
+.vscode/
+.idea/
 
-# User-specific
-*.user
+[Bb]in/
+[Oo]bj/
+x64/
+x86/
+
+# User-specific files
 *.suo
+*.user
 *.userosscache
 *.sln.docstates
 
-# Build / packages
+# Build / debug
+*.cache
+*.pdb
+*.ilk
+*.obj
+*.idb
+*.exe
+*.dll
+
+# NuGet
 packages/
-TestResults/
+*.nupkg
+.nuget/
 
-# Logs
+# Logs / temp
 *.log
+*.tmp
+*.temp
+*.bak_tmp
 
-# Local runtime config
-*.exe.config
+# Test / coverage
+TestResults/
+*.coverage
+*.coveragexml
 
-# OS
+# ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+# =========================
+# SQL Server
+# =========================
+*.mdf
+*.ldf
+*.ndf
+*.bak
+*.trn
+
+# =========================
+# Archivos sensibles / locales
+# =========================
+appsettings.json
+appsettings.Development.json
+*.config.local
+*.secret
+*.credentials
+.env
+
+# =========================
+# Windows
+# =========================
 Thumbs.db
-.DS_Store
+Desktop.ini
+
+# =========================
+# Carpetas locales de trabajo
+# =========================
+backups/
+publish/
+dist/
+output/
