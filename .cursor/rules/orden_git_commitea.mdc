@@ -1,0 +1,25 @@
+---
+description: Orden "commitea" — commit local y consulta antes de push
+alwaysApply: true
+---
+
+# Orden «commitea»
+
+Cuando el usuario diga **«commitea»** (o equivalente claro: guardar en Git, hacer commit, etc., sin indicar ya el push):
+
+1. **No hacer push** hasta que el usuario lo confirme en este intercambio o en el siguiente mensaje.
+
+2. **Preguntar siempre**, en la misma respuesta, con redacción clara y breve, por ejemplo:
+   - *«¿Querés solo el commit en local o también hacer push al remoto?»*
+
+3. **Si el mensaje es solo «commitea»** (sin elegir local/remoto): no ejecutar todavía `git add`/`git commit`; solo preguntar y esperar el siguiente mensaje del usuario.
+
+4. **Si en el mismo mensaje** el usuario ya aclara (*ej.* «commitea solo local», «commitea y push»): ejecutar de inmediato: commit, y `git push` solo si pidió remoto.
+
+5. Tras la respuesta del usuario (**solo local** / **también push**):
+   - Revisar `git status`, `git add` lo que corresponda al cambio, `git commit` con mensaje acorde al contexto de la conversación.
+   - Si eligió remoto: `git push` (habitualmente a `origin` y la rama actual). Si falla, explicar el error.
+
+6. **Recordatorio** si hubo push o si falló: hace falta `origin` (u otro remoto) configurado y credenciales/SSH válidas. En unidad de red, si aparece *dubious ownership*: `git config --global --add safe.directory '<ruta del repo>'`.
+
+7. Si no hay cambios que commitear, decirlo y no inventar commits.
