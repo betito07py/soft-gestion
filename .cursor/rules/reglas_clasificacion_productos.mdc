@@ -1,0 +1,50 @@
+---
+description: Productos y clasificación jerárquica según docs/reglas_clasificacion_productos.md.
+globs:
+  - "**/reglas_clasificacion_productos.md"
+  - "**/Producto*.vb"
+  - "**/Categoria*.vb"
+  - "**/SubCategoria*.vb"
+  - "**/Grupo*.vb"
+  - "**/FrmProductos.*"
+  - "**/FrmCategorias.*"
+  - "**/FrmSubCategorias.*"
+  - "**/FrmGrupos.*"
+  - "**/FrmClasificacionProductos.*"
+  - "**/soft_gestion_categorias_subcategorias_grupos.sql"
+  - "**/soft_gestion_productos_grupo.sql"
+  - "**/05-modelo-datos-productos-3-niveles.md"
+alwaysApply: true
+---
+
+# Productos y clasificación (regla base)
+
+**Documento canónico:** `docs/reglas_clasificacion_productos.md`. Ante cualquier duda o conflicto, ese archivo manda; al implementar o modificar SQL, repositorios, servicios o UI de productos/clasificación, alinéate con él y con la arquitectura por capas del proyecto.
+
+## Jerarquía (3 niveles)
+
+1. **Categoría** → 2. **Subcategoría** (pertenece a una categoría) → 3. **Grupo** (pertenece a una subcategoría).  
+   El producto se enlaza al **Grupo** (modelo actual); las consultas de listado deben obtener la jerarquía con **JOINs**, sin duplicar nombres de clasificación en la tabla de productos.
+
+## Codificación
+
+- `Categorias.Codigo`, `SubCategorias.Codigo`, `Grupos.Codigo`: tipo **INT** en base de datos.
+- **Sin ceros a la izquierda** en la semántica de negocio (coherente con `CodigoNegocio` / normalización de códigos en maestros).
+- Estructura **jerárquica** en los códigos (ej. categoría `2`, sub `201`, grupo `20101`).
+
+## Reglas de negocio
+
+- No códigos duplicados (según restricciones/uniques del modelo).
+- No nombres duplicados **bajo el mismo padre** (mismo criterio por nivel).
+- **Sin borrado físico**: solo desactivar.
+- **No cambiar códigos** de categoría/subcategoría/grupo si existen **productos asociados** (o el criterio equivalente que implemente el servicio).
+
+## Bebidas (obligatorio)
+
+- **201** → Bebidas sin alcohol.  
+- **202** → Bebidas con alcohol.
+
+## Código (repositorios / UI)
+
+- Listados y ABM deben reflejar la jerarquía vía **JOINs** y DTOs/resúmenes que expongan categoría → subcategoría → grupo según convenga a la pantalla.
+- **No duplicar** nombres de clasificación en columnas de `Productos` más allá de `GrupoId` (y campos propios del producto); la jerarquía sale del grafo categoría/sub/grupo.

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D4E5F6A7-B8C9-4D0E-1F2A-3B4C5D6E7F8A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Soft_Gestion.Business</RootNamespace>
+    <AssemblyName>Soft_Gestion.Business</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Empty</MyType>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <OutputPath>bin\Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>On</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Soft_Gestion.Domain\Soft_Gestion.Domain.vbproj">
+      <Project>{a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d}</Project>
+      <Name>Soft_Gestion.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Soft_Gestion.Common\Soft_Gestion.Common.vbproj">
+      <Project>{b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e}</Project>
+      <Name>Soft_Gestion.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Soft_Gestion.Data\Soft_Gestion.Data.vbproj">
+      <Project>{c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f}</Project>
+      <Name>Soft_Gestion.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.vb" />
+    <Compile Include="Services\ServicioBase.vb" />
+    <Compile Include="Services\UsuarioService.vb" />
+    <Compile Include="Services\RolService.vb" />
+    <Compile Include="Services\PermisoService.vb" />
+    <Compile Include="Services\RolPermisoService.vb" />
+    <Compile Include="Services\PermisoEfectivoService.vb" />
+    <Compile Include="Services\EmpresaService.vb" />
+    <Compile Include="Services\SucursalService.vb" />
+    <Compile Include="Services\DepositoService.vb" />
+    <Compile Include="Services\ClienteService.vb" />
+    <Compile Include="Services\ProveedorService.vb" />
+    <Compile Include="Services\CategoriaService.vb" />
+    <Compile Include="Services\SubCategoriaService.vb" />
+    <Compile Include="Services\GrupoService.vb" />
+    <Compile Include="Services\ClasificacionProductoRapidaService.vb" />
+    <Compile Include="Services\MarcaService.vb" />
+    <Compile Include="Services\UnidadMedidaService.vb" />
+    <Compile Include="Services\ProductoService.vb" />
+    <Compile Include="Seguridad\ResultadoAutenticacion.vb" />
+    <Compile Include="Common\ResultadoOperacion.vb" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

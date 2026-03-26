@@ -1,0 +1,24 @@
+# Visual Studio
+.vs/
+**/bin/
+**/obj/
+
+# User-specific
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build / packages
+packages/
+TestResults/
+
+# Logs
+*.log
+
+# Local runtime config
+*.exe.config
+
+# OS
+Thumbs.db
+.DS_Store

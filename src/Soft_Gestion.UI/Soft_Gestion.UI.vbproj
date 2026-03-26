@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E5F6A7B8-C9D0-4E1F-2A3B-4C5D6E7F8A9B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Soft_Gestion.UI</RootNamespace>
+    <AssemblyName>Soft_Gestion</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Empty</MyType>
+    <StartupObject>Soft_Gestion.UI.Program</StartupObject>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <OutputPath>bin\Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SqlClient" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Soft_Gestion.Domain\Soft_Gestion.Domain.vbproj">
+      <Project>{a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d}</Project>
+      <Name>Soft_Gestion.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Soft_Gestion.Common\Soft_Gestion.Common.vbproj">
+      <Project>{b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e}</Project>
+      <Name>Soft_Gestion.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Soft_Gestion.Business\Soft_Gestion.Business.vbproj">
+      <Project>{d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a}</Project>
+      <Name>Soft_Gestion.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Soft_Gestion.Data\Soft_Gestion.Data.vbproj">
+      <Project>{c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f}</Project>
+      <Name>Soft_Gestion.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Navigation\ClavesFormulario.vb" />
+    <Compile Include="Seguridad\SesionAplicacion.vb" />
+    <Compile Include="Seguridad\AccesoFormulario.vb" />
+    <Compile Include="Program.vb" />
+    <Compile Include="Forms\FrmLogin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmLogin.Designer.vb">
+      <DependentUpon>FrmLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmConexiones.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmConexiones.Designer.vb">
+      <DependentUpon>FrmConexiones.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPlaceholder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPlaceholder.Designer.vb">
+      <DependentUpon>FrmPlaceholder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPrincipal.vb" />
+    <Compile Include="Forms\FrmPrincipal.Designer.vb">
+      <DependentUpon>FrmPrincipal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmUsuarios.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmUsuarios.Designer.vb">
+      <DependentUpon>FrmUsuarios.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmRoles.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmRoles.Designer.vb">
+      <DependentUpon>FrmRoles.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmPermisos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmPermisos.Designer.vb">
+      <DependentUpon>FrmPermisos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmRolPermisos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmRolPermisos.Designer.vb">
+      <DependentUpon>FrmRolPermisos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmEmpresas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmEmpresas.Designer.vb">
+      <DependentUpon>FrmEmpresas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmSucursales.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSucursales.Designer.vb">
+      <DependentUpon>FrmSucursales.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmDepositos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmDepositos.Designer.vb">
+      <DependentUpon>FrmDepositos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmClientes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmClientes.Designer.vb">
+      <DependentUpon>FrmClientes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmProveedores.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmProveedores.Designer.vb">
+      <DependentUpon>FrmProveedores.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmCategorias.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmCategorias.Designer.vb">
+      <DependentUpon>FrmCategorias.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmSubCategorias.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmSubCategorias.Designer.vb">
+      <DependentUpon>FrmSubCategorias.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmGrupos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmGrupos.Designer.vb">
+      <DependentUpon>FrmGrupos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmClasificacionProductos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmClasificacionProductos.Designer.vb">
+      <DependentUpon>FrmClasificacionProductos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmMarcas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmMarcas.Designer.vb">
+      <DependentUpon>FrmMarcas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmUnidadesMedida.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmUnidadesMedida.Designer.vb">
+      <DependentUpon>FrmUnidadesMedida.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FrmProductos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmProductos.Designer.vb">
+      <DependentUpon>FrmProductos.vb</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="My Project\Settings.settings">
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\FrmLogin.resx">
+      <DependentUpon>FrmLogin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmConexiones.resx">
+      <DependentUpon>FrmConexiones.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPlaceholder.resx">
+      <DependentUpon>FrmPlaceholder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPrincipal.resx">
+      <DependentUpon>FrmPrincipal.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmUsuarios.resx">
+      <DependentUpon>FrmUsuarios.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmRoles.resx">
+      <DependentUpon>FrmRoles.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmPermisos.resx">
+      <DependentUpon>FrmPermisos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmRolPermisos.resx">
+      <DependentUpon>FrmRolPermisos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmEmpresas.resx">
+      <DependentUpon>FrmEmpresas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmSucursales.resx">
+      <DependentUpon>FrmSucursales.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmDepositos.resx">
+      <DependentUpon>FrmDepositos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmClientes.resx">
+      <DependentUpon>FrmClientes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmProveedores.resx">
+      <DependentUpon>FrmProveedores.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmCategorias.resx">
+      <DependentUpon>FrmCategorias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmSubCategorias.resx">
+      <DependentUpon>FrmSubCategorias.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmGrupos.resx">
+      <DependentUpon>FrmGrupos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmClasificacionProductos.resx">
+      <DependentUpon>FrmClasificacionProductos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmMarcas.resx">
+      <DependentUpon>FrmMarcas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmUnidadesMedida.resx">
+      <DependentUpon>FrmUnidadesMedida.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmProductos.resx">
+      <DependentUpon>FrmProductos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 y x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

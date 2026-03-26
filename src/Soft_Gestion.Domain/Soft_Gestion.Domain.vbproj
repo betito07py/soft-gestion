@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A1B2C3D4-E5F6-4A7B-8C9D-0E1F2A3B4C5D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Soft_Gestion.Domain</RootNamespace>
+    <AssemblyName>Soft_Gestion.Domain</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Empty</MyType>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <OutputPath>bin\Release\</OutputPath>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\UnidadMedida.vb" />
+    <Compile Include="Properties\AssemblyInfo.vb" />
+    <Compile Include="Entities\EntidadBase.vb" />
+    <Compile Include="Entities\Usuario.vb" />
+    <Compile Include="Entities\Rol.vb" />
+    <Compile Include="Entities\Permiso.vb" />
+    <Compile Include="Entities\Empresa.vb" />
+    <Compile Include="Entities\Sucursal.vb" />
+    <Compile Include="Entities\Deposito.vb" />
+    <Compile Include="Entities\Cliente.vb" />
+    <Compile Include="Entities\Proveedor.vb" />
+    <Compile Include="Entities\Producto.vb" />
+    <Compile Include="Entities\Categoria.vb" />
+    <Compile Include="Entities\SubCategoria.vb" />
+    <Compile Include="Entities\Grupo.vb" />
+    <Compile Include="Entities\Marca.vb" />
+    <Compile Include="Dto\UsuarioResumen.vb" />
+    <Compile Include="Dto\SucursalSelectorItem.vb" />
+    <Compile Include="Dto\RolResumen.vb" />
+    <Compile Include="Dto\PermisoResumen.vb" />
+    <Compile Include="Dto\PermisoLineaAsignacion.vb" />
+    <Compile Include="Dto\EmpresaResumen.vb" />
+    <Compile Include="Dto\EmpresaSelectorItem.vb" />
+    <Compile Include="Dto\SucursalResumen.vb" />
+    <Compile Include="Dto\DepositoResumen.vb" />
+    <Compile Include="Dto\ClienteResumen.vb" />
+    <Compile Include="Dto\ProveedorResumen.vb" />
+    <Compile Include="Dto\CondicionPagoSelectorItem.vb" />
+    <Compile Include="Dto\ListaPrecioSelectorItem.vb" />
+    <Compile Include="Dto\CategoriaResumen.vb" />
+    <Compile Include="Dto\CategoriaSelectorItem.vb" />
+    <Compile Include="Dto\SubCategoriaResumen.vb" />
+    <Compile Include="Dto\SubCategoriaSelectorItem.vb" />
+    <Compile Include="Dto\GrupoResumen.vb" />
+    <Compile Include="Dto\GrupoSelectorItem.vb" />
+    <Compile Include="Dto\MarcaResumen.vb" />
+    <Compile Include="Dto\MarcaSelectorItem.vb" />
+    <Compile Include="Dto\UnidadMedidaResumen.vb" />
+    <Compile Include="Dto\UnidadMedidaSifenSelectorItem.vb" />
+    <Compile Include="Dto\ProductoResumen.vb" />
+    <Compile Include="Dto\ProductoSelectorItem.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Contracts\" />
+    <Folder Include="Enums\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

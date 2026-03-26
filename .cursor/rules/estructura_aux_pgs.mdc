@@ -1,0 +1,18 @@
+---
+description: Arquitectura en capas (Fase 1) según docs/03-roadmap.md.
+globs:
+alwaysApply: false
+---
+
+# Estructura en capas
+
+- **`src/Soft_Gestion.Domain`**: entidades, enums, contratos base.
+- **`src/Soft_Gestion.Common`**: configuración, utilidades, helpers compartidos.
+- **`src/Soft_Gestion.Data`**: acceso a SQL Server, repositorios, DbConexion.
+- **`src/Soft_Gestion.Business`**: servicios de negocio, validaciones, casos de uso.
+- **`src/Soft_Gestion.UI`**: formularios WinForms (Frm*), Program, menú MDI.
+- **`database/`**: schema, procedures, views, functions, seeds, scripts.
+- **`docs`**: documentación.
+- **`prompts`**: prompts por fase.
+
+La UI solo referencia Business, Domain y Common. No accede a Data directamente.
