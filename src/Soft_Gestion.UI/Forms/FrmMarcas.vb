@@ -1,3 +1,4 @@
+Imports System
 Imports System.Windows.Forms
 Imports Soft_Gestion.Business
 Imports Soft_Gestion.Domain
@@ -6,6 +7,12 @@ Imports Soft_Gestion.Domain
 ''' ABM de marcas de producto. Sin SQL en la UI; usa MarcaService (capa Business).
 ''' </summary>
 Public Partial Class FrmMarcas
+
+    Public Sub New()
+        MyBase.New()
+        InitializeComponent()
+        MaestroListaEncabezadoHelper.AplicarEncabezadoGrilla(Me, pnlListaMaestro, lblTituloGrilla, dgvMarcas, "Marcas")
+    End Sub
 
     Public Shared ReadOnly Property ClaveFormularioPermiso As String
         Get
@@ -43,8 +50,9 @@ Public Partial Class FrmMarcas
             Dim lista = _servicio.ListarMarcas(txtBusqueda.Text)
             dgvMarcas.DataSource = Nothing
             dgvMarcas.DataSource = lista
-        Catch
-            MessageBox.Show("No se pudo cargar el listado de marcas.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch ex As Exception
+            Dim detalle = If(ex.InnerException IsNot Nothing, ex.Message & Environment.NewLine & ex.InnerException.Message, ex.Message)
+            MessageBox.Show("No se pudo cargar el listado de marcas." & Environment.NewLine & detalle, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Error)
         Finally
             _suspendSeleccion = False
         End Try

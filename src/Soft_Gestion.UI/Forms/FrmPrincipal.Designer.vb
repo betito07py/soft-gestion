@@ -35,6 +35,7 @@ Partial Class FrmPrincipal
         Me.MenuMaestrosClasificacionProductos = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuMaestrosMarcas = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuMaestrosUnidadesMedida = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuMaestrosImpuestos = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuMaestrosProductos = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStock = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStockVista = New System.Windows.Forms.ToolStripMenuItem()
@@ -101,7 +102,7 @@ Partial Class FrmPrincipal
         '
         'MenuMaestros
         '
-        Me.MenuMaestros.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuMaestrosEmpresas, Me.MenuMaestrosSucursales, Me.MenuMaestrosDepositos, Me.MenuMaestrosClientes, Me.MenuMaestrosProveedores, Me.MenuMaestrosCategorias, Me.MenuMaestrosSubCategorias, Me.MenuMaestrosGrupos, Me.MenuMaestrosClasificacionProductos, Me.MenuMaestrosMarcas, Me.MenuMaestrosUnidadesMedida, Me.MenuMaestrosProductos})
+        Me.MenuMaestros.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuMaestrosEmpresas, Me.MenuMaestrosSucursales, Me.MenuMaestrosDepositos, Me.MenuMaestrosClientes, Me.MenuMaestrosProveedores, Me.MenuMaestrosCategorias, Me.MenuMaestrosSubCategorias, Me.MenuMaestrosGrupos, Me.MenuMaestrosClasificacionProductos, Me.MenuMaestrosMarcas, Me.MenuMaestrosUnidadesMedida, Me.MenuMaestrosImpuestos, Me.MenuMaestrosProductos})
         Me.MenuMaestros.Name = "MenuMaestros"
         Me.MenuMaestros.Size = New System.Drawing.Size(67, 20)
         Me.MenuMaestros.Text = "Maestros"
@@ -141,18 +142,21 @@ Partial Class FrmPrincipal
         Me.MenuMaestrosCategorias.Name = "MenuMaestrosCategorias"
         Me.MenuMaestrosCategorias.Size = New System.Drawing.Size(180, 22)
         Me.MenuMaestrosCategorias.Text = "Categorías"
+        Me.MenuMaestrosCategorias.Visible = False
         '
         'MenuMaestrosSubCategorias
         '
         Me.MenuMaestrosSubCategorias.Name = "MenuMaestrosSubCategorias"
         Me.MenuMaestrosSubCategorias.Size = New System.Drawing.Size(180, 22)
         Me.MenuMaestrosSubCategorias.Text = "Subcategorías"
+        Me.MenuMaestrosSubCategorias.Visible = False
         '
         'MenuMaestrosGrupos
         '
         Me.MenuMaestrosGrupos.Name = "MenuMaestrosGrupos"
         Me.MenuMaestrosGrupos.Size = New System.Drawing.Size(180, 22)
         Me.MenuMaestrosGrupos.Text = "Grupos"
+        Me.MenuMaestrosGrupos.Visible = False
         '
         'MenuMaestrosClasificacionProductos
         '
@@ -171,6 +175,12 @@ Partial Class FrmPrincipal
         Me.MenuMaestrosUnidadesMedida.Name = "MenuMaestrosUnidadesMedida"
         Me.MenuMaestrosUnidadesMedida.Size = New System.Drawing.Size(180, 22)
         Me.MenuMaestrosUnidadesMedida.Text = "Unidades de medida"
+        '
+        'MenuMaestrosImpuestos
+        '
+        Me.MenuMaestrosImpuestos.Name = "MenuMaestrosImpuestos"
+        Me.MenuMaestrosImpuestos.Size = New System.Drawing.Size(180, 22)
+        Me.MenuMaestrosImpuestos.Text = "Impuestos"
         '
         'MenuMaestrosProductos
         '
@@ -347,6 +357,7 @@ Partial Class FrmPrincipal
     Friend WithEvents MenuMaestrosClasificacionProductos As ToolStripMenuItem
     Friend WithEvents MenuMaestrosMarcas As ToolStripMenuItem
     Friend WithEvents MenuMaestrosUnidadesMedida As ToolStripMenuItem
+    Friend WithEvents MenuMaestrosImpuestos As ToolStripMenuItem
     Friend WithEvents MenuMaestrosProductos As ToolStripMenuItem
     Friend WithEvents MenuStock As ToolStripMenuItem
     Friend WithEvents MenuStockVista As ToolStripMenuItem

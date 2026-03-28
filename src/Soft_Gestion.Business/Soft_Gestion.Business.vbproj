@@ -73,6 +73,7 @@
     <Compile Include="Services\MarcaService.vb" />
     <Compile Include="Services\UnidadMedidaService.vb" />
     <Compile Include="Services\ProductoService.vb" />
+    <Compile Include="Services\ImpuestoService.vb" />
     <Compile Include="Seguridad\ResultadoAutenticacion.vb" />
     <Compile Include="Common\ResultadoOperacion.vb" />
   </ItemGroup>

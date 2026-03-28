@@ -7,6 +7,12 @@ Imports System.Windows.Forms
 ''' </summary>
 Public Partial Class FrmEmpresas
 
+    Public Sub New()
+        MyBase.New()
+        InitializeComponent()
+        MaestroListaEncabezadoHelper.AplicarEncabezadoGrilla(Me, pnlListaMaestro, lblTituloGrilla, dgvEmpresas, "Empresas")
+    End Sub
+
     Public Shared ReadOnly Property ClaveFormularioPermiso As String
         Get
             Return ClavesFormulario.MaestrosEmpresas
@@ -221,4 +227,5 @@ Public Partial Class FrmEmpresas
         SeleccionarFilaPorEmpresaId(_empresaEdicionId)
         CargarEmpresaEnFormulario(_empresaEdicionId)
     End Sub
+
 End Class

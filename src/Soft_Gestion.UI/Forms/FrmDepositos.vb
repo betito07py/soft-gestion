@@ -9,6 +9,12 @@ Imports System.Windows.Forms
 ''' </summary>
 Public Partial Class FrmDepositos
 
+    Public Sub New()
+        MyBase.New()
+        InitializeComponent()
+        MaestroListaEncabezadoHelper.AplicarEncabezadoGrilla(Me, pnlListaMaestro, lblTituloGrilla, dgvDepositos, "Depósitos")
+    End Sub
+
     Public Shared ReadOnly Property ClaveFormularioPermiso As String
         Get
             Return ClavesFormulario.MaestrosDepositos

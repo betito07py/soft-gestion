@@ -10,30 +10,36 @@ Public Class ProductoRepository
     Inherits RepositorioBase
 
     Private Const SqlObtenerPorId As String =
-        "SELECT ProductoId, Codigo, CodigoBarras, Descripcion, GrupoId, MarcaId, UnidadMedidaId, " &
-        "CostoUltimo, PrecioBase, PorcentajeIVA, PermiteStockNegativo, ControlaStock, EsServicio, Observaciones, Activo, " &
+        "SELECT ProductoId, Codigo, CodigoBarras, Descripcion, GrupoId, MarcaId, ImpuestoId, UnidadMedidaId, " &
+        "CostoUltimo, PermiteStockNegativo, ControlaStock, EsServicio, Observaciones, Activo, " &
         "FechaCreacion, UsuarioCreacion, FechaModificacion, UsuarioModificacion " &
         "FROM dbo.Productos WHERE ProductoId = @ProductoId;"
 
     Private Const SqlListar As String =
-        "SELECT p.ProductoId, p.Codigo, p.CodigoBarras, p.Descripcion, p.GrupoId, " &
+        "SELECT p.ProductoId, p.Codigo, " &
+        "COALESCE(" &
+        "(SELECT TOP (1) pb.CodBarras FROM dbo.Productos_Barras pb WHERE pb.ProductoId = p.ProductoId ORDER BY pb.FechaAlta ASC, pb.ProductoBarraId ASC), " &
+        "p.CodigoBarras) AS CodigoBarras, p.Descripcion, p.GrupoId, " &
         "g.CategoriaId, g.SubCategoriaId, " &
         "cat.Codigo AS CategoriaCodigo, cat.Nombre AS CategoriaNombre, " &
         "sc.Codigo AS SubCategoriaCodigo, sc.Nombre AS SubCategoriaNombre, " &
         "g.Codigo AS GrupoCodigo, g.Nombre AS GrupoNombre, " &
         "p.MarcaId, m.Codigo AS MarcaCodigo, m.Nombre AS MarcaNombre, " &
+        "p.ImpuestoId, imp.Codigo AS ImpuestoCodigo, imp.Nombre AS ImpuestoNombre, " &
         "p.UnidadMedidaId, um.Codigo AS UnidadCodigo, um.Abreviatura AS UnidadAbreviatura, " &
         "um.Codigo_SIFEN AS Codigo_SIFEN, sifen.Descrip_Unidad AS Descrip_Unidad_SIFEN, sifen.Codigo_Repr AS Codigo_Repr_SIFEN, " &
-        "p.CostoUltimo, p.PrecioBase, p.PorcentajeIVA, p.PermiteStockNegativo, p.ControlaStock, p.EsServicio, p.Activo " &
+        "p.CostoUltimo, p.PermiteStockNegativo, p.ControlaStock, p.EsServicio, p.Activo " &
         "FROM dbo.Productos p " &
         "LEFT JOIN dbo.Grupos g ON g.GrupoId = p.GrupoId " &
         "LEFT JOIN dbo.Categorias cat ON cat.CategoriaId = g.CategoriaId " &
         "LEFT JOIN dbo.SubCategorias sc ON sc.SubCategoriaId = g.SubCategoriaId " &
         "LEFT JOIN dbo.Marcas m ON m.MarcaId = p.MarcaId " &
+        "LEFT JOIN dbo.Impuestos imp ON imp.ImpuestoId = p.ImpuestoId " &
         "INNER JOIN dbo.UnidadesMedida um ON um.UnidadMedidaId = p.UnidadMedidaId " &
         "LEFT JOIN dbo.UnidadesMedidaSIFEN sifen ON sifen.Codigo = um.Codigo_SIFEN " &
         "WHERE (@Filtro IS NULL OR @Filtro = N'' OR p.Codigo LIKE @Patron OR p.Descripcion LIKE @Patron " &
-        "OR (p.CodigoBarras IS NOT NULL AND p.CodigoBarras LIKE @Patron)) " &
+        "OR (p.CodigoBarras IS NOT NULL AND p.CodigoBarras LIKE @Patron) " &
+        "OR EXISTS (SELECT 1 FROM dbo.Productos_Barras pbf WHERE pbf.ProductoId = p.ProductoId AND pbf.CodBarras LIKE @Patron)) " &
         "AND (@CategoriaId IS NULL OR g.CategoriaId = @CategoriaId) " &
         "AND (@SubCategoriaId IS NULL OR g.SubCategoriaId = @SubCategoriaId) " &
         "AND (@GrupoId IS NULL OR p.GrupoId = @GrupoId) " &
@@ -46,15 +52,15 @@ Public Class ProductoRepository
         "AND (@ExcluirProductoId IS NULL OR ProductoId <> @ExcluirProductoId);"
 
     Private Const SqlInsertar As String =
-        "INSERT INTO dbo.Productos (Codigo, CodigoBarras, Descripcion, GrupoId, MarcaId, UnidadMedidaId, " &
+        "INSERT INTO dbo.Productos (Codigo, CodigoBarras, Descripcion, GrupoId, MarcaId, ImpuestoId, UnidadMedidaId, " &
         "CostoUltimo, PrecioBase, PorcentajeIVA, PermiteStockNegativo, ControlaStock, EsServicio, Observaciones, Activo, UsuarioCreacion) " &
         "OUTPUT INSERTED.ProductoId " &
-        "VALUES (@Codigo, @CodigoBarras, @Descripcion, @GrupoId, @MarcaId, @UnidadMedidaId, " &
+        "VALUES (@Codigo, @CodigoBarras, @Descripcion, @GrupoId, @MarcaId, @ImpuestoId, @UnidadMedidaId, " &
         "@CostoUltimo, @PrecioBase, @PorcentajeIVA, @PermiteStockNegativo, @ControlaStock, @EsServicio, @Observaciones, @Activo, @UsuarioCreacion);"
 
     Private Const SqlActualizar As String =
         "UPDATE dbo.Productos SET Codigo = @Codigo, CodigoBarras = @CodigoBarras, Descripcion = @Descripcion, " &
-        "GrupoId = @GrupoId, MarcaId = @MarcaId, UnidadMedidaId = @UnidadMedidaId, " &
+        "GrupoId = @GrupoId, MarcaId = @MarcaId, ImpuestoId = @ImpuestoId, UnidadMedidaId = @UnidadMedidaId, " &
         "CostoUltimo = @CostoUltimo, PrecioBase = @PrecioBase, PorcentajeIVA = @PorcentajeIVA, " &
         "PermiteStockNegativo = @PermiteStockNegativo, ControlaStock = @ControlaStock, EsServicio = @EsServicio, Observaciones = @Observaciones, " &
         "FechaModificacion = SYSDATETIME(), UsuarioModificacion = @UsuarioModificacion " &
@@ -137,7 +143,8 @@ Public Class ProductoRepository
         End Using
     End Function
 
-    Public Function Insertar(p As Producto) As Integer
+    ''' <param name="porcentajeIvaPersistido">Valor almacenado en <c>dbo.Productos.PorcentajeIVA</c>, alineado al maestro <c>Impuestos</c>.</param>
+    Public Function Insertar(p As Producto, porcentajeIvaPersistido As Decimal) As Integer
         If p Is Nothing Then Throw New ArgumentNullException(NameOf(p))
         Using cn As SqlConnection = CrearConexion()
             cn.Open()
@@ -151,10 +158,11 @@ Public Class ProductoRepository
                 Else
                     AgregarParametro(cmd, "@MarcaId", DBNull.Value)
                 End If
+                AgregarParametro(cmd, "@ImpuestoId", p.ImpuestoId)
                 AgregarParametro(cmd, "@UnidadMedidaId", p.UnidadMedidaId)
                 AgregarParametro(cmd, "@CostoUltimo", p.CostoUltimo)
-                AgregarParametro(cmd, "@PrecioBase", p.PrecioBase)
-                AgregarParametro(cmd, "@PorcentajeIVA", p.PorcentajeIVA)
+                AgregarParametro(cmd, "@PrecioBase", 0D)
+                AgregarParametro(cmd, "@PorcentajeIVA", porcentajeIvaPersistido)
                 AgregarParametro(cmd, "@PermiteStockNegativo", p.PermiteStockNegativo)
                 AgregarParametro(cmd, "@ControlaStock", p.ControlaStock)
                 AgregarParametro(cmd, "@EsServicio", p.EsServicio)
@@ -167,7 +175,7 @@ Public Class ProductoRepository
         End Using
     End Function
 
-    Public Function Actualizar(p As Producto, usuarioModificador As String) As Integer
+    Public Function Actualizar(p As Producto, usuarioModificador As String, porcentajeIvaPersistido As Decimal) As Integer
         If p Is Nothing Then Throw New ArgumentNullException(NameOf(p))
         Using cn As SqlConnection = CrearConexion()
             cn.Open()
@@ -182,10 +190,11 @@ Public Class ProductoRepository
                 Else
                     AgregarParametro(cmd, "@MarcaId", DBNull.Value)
                 End If
+                AgregarParametro(cmd, "@ImpuestoId", p.ImpuestoId)
                 AgregarParametro(cmd, "@UnidadMedidaId", p.UnidadMedidaId)
                 AgregarParametro(cmd, "@CostoUltimo", p.CostoUltimo)
-                AgregarParametro(cmd, "@PrecioBase", p.PrecioBase)
-                AgregarParametro(cmd, "@PorcentajeIVA", p.PorcentajeIVA)
+                AgregarParametro(cmd, "@PrecioBase", 0D)
+                AgregarParametro(cmd, "@PorcentajeIVA", porcentajeIvaPersistido)
                 AgregarParametro(cmd, "@PermiteStockNegativo", p.PermiteStockNegativo)
                 AgregarParametro(cmd, "@ControlaStock", p.ControlaStock)
                 AgregarParametro(cmd, "@EsServicio", p.EsServicio)
@@ -224,10 +233,9 @@ Public Class ProductoRepository
             .Descripcion = LeerString(reader, "Descripcion"),
             .GrupoId = LeerInt32Nullable(reader, "GrupoId"),
             .MarcaId = LeerInt32Nullable(reader, "MarcaId"),
+            .ImpuestoId = LeerInt32(reader, "ImpuestoId"),
             .UnidadMedidaId = LeerInt32(reader, "UnidadMedidaId"),
             .CostoUltimo = LeerDecimal(reader, "CostoUltimo"),
-            .PrecioBase = LeerDecimal(reader, "PrecioBase"),
-            .PorcentajeIVA = LeerDecimal(reader, "PorcentajeIVA"),
             .PermiteStockNegativo = LeerBoolean(reader, "PermiteStockNegativo"),
             .ControlaStock = LeerBoolean(reader, "ControlaStock"),
             .EsServicio = LeerBoolean(reader, "EsServicio"),
@@ -258,6 +266,9 @@ Public Class ProductoRepository
             .MarcaId = LeerInt32Nullable(reader, "MarcaId"),
             .MarcaCodigo = LeerString(reader, "MarcaCodigo"),
             .MarcaNombre = LeerString(reader, "MarcaNombre"),
+            .ImpuestoId = LeerInt32(reader, "ImpuestoId"),
+            .ImpuestoCodigo = LeerInt32Nullable(reader, "ImpuestoCodigo"),
+            .ImpuestoNombre = LeerString(reader, "ImpuestoNombre"),
             .UnidadMedidaId = LeerInt32(reader, "UnidadMedidaId"),
             .UnidadCodigo = LeerString(reader, "UnidadCodigo"),
             .UnidadAbreviatura = LeerString(reader, "UnidadAbreviatura"),
@@ -265,8 +276,6 @@ Public Class ProductoRepository
             .Descrip_Unidad_SIFEN = LeerString(reader, "Descrip_Unidad_SIFEN"),
             .Codigo_Repr_SIFEN = LeerString(reader, "Codigo_Repr_SIFEN"),
             .CostoUltimo = LeerDecimal(reader, "CostoUltimo"),
-            .PrecioBase = LeerDecimal(reader, "PrecioBase"),
-            .PorcentajeIVA = LeerDecimal(reader, "PorcentajeIVA"),
             .PermiteStockNegativo = LeerBoolean(reader, "PermiteStockNegativo"),
             .ControlaStock = LeerBoolean(reader, "ControlaStock"),
             .EsServicio = LeerBoolean(reader, "EsServicio"),

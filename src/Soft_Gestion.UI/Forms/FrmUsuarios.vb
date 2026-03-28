@@ -7,6 +7,12 @@ Imports System.Windows.Forms
 ''' </summary>
 Public Partial Class FrmUsuarios
 
+    Public Sub New()
+        MyBase.New()
+        InitializeComponent()
+        MaestroListaEncabezadoHelper.AplicarEncabezadoGrilla(Me, pnlListaMaestro, lblTituloGrilla, dgvUsuarios, "Usuarios")
+    End Sub
+
     ''' <summary>Clave alineada con el menú y permisos futuros.</summary>
     Public Shared ReadOnly Property ClaveFormularioPermiso As String
         Get

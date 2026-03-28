@@ -51,10 +51,12 @@
     <Compile Include="Entities\Cliente.vb" />
     <Compile Include="Entities\Proveedor.vb" />
     <Compile Include="Entities\Producto.vb" />
+    <Compile Include="Entities\ProductoBarra.vb" />
     <Compile Include="Entities\Categoria.vb" />
     <Compile Include="Entities\SubCategoria.vb" />
     <Compile Include="Entities\Grupo.vb" />
     <Compile Include="Entities\Marca.vb" />
+    <Compile Include="Entities\Impuesto.vb" />
     <Compile Include="Dto\UsuarioResumen.vb" />
     <Compile Include="Dto\SucursalSelectorItem.vb" />
     <Compile Include="Dto\RolResumen.vb" />
@@ -79,6 +81,8 @@
     <Compile Include="Dto\UnidadMedidaResumen.vb" />
     <Compile Include="Dto\UnidadMedidaSifenSelectorItem.vb" />
     <Compile Include="Dto\ProductoResumen.vb" />
+    <Compile Include="Dto\ImpuestoResumen.vb" />
+    <Compile Include="Dto\ImpuestoSelectorItem.vb" />
     <Compile Include="Dto\ProductoSelectorItem.vb" />
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,9 @@ Public Class ProductoResumen
     Public Property MarcaId As Integer?
     Public Property MarcaCodigo As String
     Public Property MarcaNombre As String
+    Public Property ImpuestoId As Integer
+    Public Property ImpuestoCodigo As Integer?
+    Public Property ImpuestoNombre As String
     Public Property UnidadMedidaId As Integer
     Public Property UnidadCodigo As String
     Public Property UnidadAbreviatura As String
@@ -23,8 +26,6 @@ Public Class ProductoResumen
     Public Property Descrip_Unidad_SIFEN As String
     Public Property Codigo_Repr_SIFEN As String
     Public Property CostoUltimo As Decimal
-    Public Property PrecioBase As Decimal
-    Public Property PorcentajeIVA As Decimal
     Public Property PermiteStockNegativo As Boolean
     Public Property ControlaStock As Boolean
     Public Property EsServicio As Boolean

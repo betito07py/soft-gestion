@@ -10,6 +10,12 @@ Imports Soft_Gestion.Domain
 ''' </summary>
 Public Partial Class FrmProductos
 
+    Public Sub New()
+        MyBase.New()
+        InitializeComponent()
+        MaestroListaEncabezadoHelper.AplicarEncabezadoGrilla(Me, pnlListaMaestro, lblTituloGrilla, dgvProductos, "Productos")
+    End Sub
+
     Public Shared ReadOnly Property ClaveFormularioPermiso As String
         Get
             Return ClavesFormulario.MaestrosProductos
@@ -37,6 +43,7 @@ Public Partial Class FrmProductos
         CargarComboEdicionSubCategoria(0)
         CargarComboEdicionGrupo(0)
         CargarComboEdicionMarca()
+        CargarComboEdicionImpuesto()
         CargarComboEdicionUnidad()
         LimpiarFormularioEdicion()
         RefrescarListado()
@@ -57,10 +64,9 @@ Public Partial Class FrmProductos
         dgvProductos.Columns.Add(New DataGridViewTextBoxColumn With {
             .DataPropertyName = "MarcaCodigo", .HeaderText = "Marca", .Name = "colMarca", .Width = 52})
         dgvProductos.Columns.Add(New DataGridViewTextBoxColumn With {
-            .DataPropertyName = "UnidadAbreviatura", .HeaderText = "Um.", .Name = "colUm", .Width = 40})
+            .DataPropertyName = "ImpuestoNombre", .HeaderText = "Impuesto", .Name = "colImpuesto", .MinimumWidth = 80, .FillWeight = 70})
         dgvProductos.Columns.Add(New DataGridViewTextBoxColumn With {
-            .DataPropertyName = "PrecioBase", .HeaderText = "P. base", .Name = "colPrecio", .Width = 72,
-            .DefaultCellStyle = New DataGridViewCellStyle With {.Format = "N2"}})
+            .DataPropertyName = "UnidadAbreviatura", .HeaderText = "Um.", .Name = "colUm", .Width = 40})
         dgvProductos.Columns.Add(New DataGridViewCheckBoxColumn With {
             .DataPropertyName = "Activo", .HeaderText = "Act.", .Name = "colActivo", .Width = 42})
     End Sub
@@ -204,6 +210,16 @@ Public Partial Class FrmProductos
         cmbMarca.DataSource = lista
     End Sub
 
+    Private Sub CargarComboEdicionImpuesto()
+        Dim lista As New List(Of ImpuestoSelectorItem) From {
+            New ImpuestoSelectorItem With {.ImpuestoId = 0, .Nombre = "(Seleccione impuesto)"}
+        }
+        lista.AddRange(_servicio.ListarImpuestosActivosParaSelector())
+        cmbImpuesto.DisplayMember = "Nombre"
+        cmbImpuesto.ValueMember = "ImpuestoId"
+        cmbImpuesto.DataSource = lista
+    End Sub
+
     Private Sub CargarComboEdicionUnidad()
         Dim uds = _servicio.ListarUnidadesActivasParaSelector()
         cmbUnidadMedida.DisplayMember = "Codigo"
@@ -239,6 +255,23 @@ Public Partial Class FrmProductos
         If extra Is Nothing Then Return
         lista.Insert(1, extra)
         RefrescarDataSourceCombo(cmbGrupo, lista)
+    End Sub
+
+    Private Sub AsegurarImpuestoEnCombo(impuestoId As Integer)
+        Dim lista = TryCast(cmbImpuesto.DataSource, List(Of ImpuestoSelectorItem))
+        If lista Is Nothing OrElse impuestoId <= 0 Then Return
+        If lista.Any(Function(x) x.ImpuestoId = impuestoId) Then Return
+        Dim extra = _servicio.ObtenerItemImpuestoParaEdicion(impuestoId)
+        If extra Is Nothing Then Return
+        lista.Insert(1, extra)
+        RefrescarDataSourceComboImpuesto(lista)
+    End Sub
+
+    Private Sub RefrescarDataSourceComboImpuesto(lista As List(Of ImpuestoSelectorItem))
+        cmbImpuesto.DataSource = Nothing
+        cmbImpuesto.DisplayMember = "Nombre"
+        cmbImpuesto.ValueMember = "ImpuestoId"
+        cmbImpuesto.DataSource = lista
     End Sub
 
     Private Sub AsegurarMarcaEnCombo(marcaId As Integer)
@@ -293,6 +326,12 @@ Public Partial Class FrmProductos
         Dim it = TryCast(cmbGrupo.SelectedItem, GrupoSelectorItem)
         If it Is Nothing Then Return 0
         Return it.GrupoId
+    End Function
+
+    Private Function ObtenerImpuestoIdEdicion() As Integer
+        Dim it = TryCast(cmbImpuesto.SelectedItem, ImpuestoSelectorItem)
+        If it Is Nothing Then Return 0
+        Return it.ImpuestoId
     End Function
 
     Private Function ObtenerMarcaIdEdicion() As Integer?
@@ -397,11 +436,9 @@ Public Partial Class FrmProductos
             _edicionId = p.ProductoId
             lblIdValor.Text = p.ProductoId.ToString()
             txtCodigo.Text = p.Codigo
-            txtCodigoBarras.Text = If(p.CodigoBarras, String.Empty)
+            CargarCodigosBarrasEnLista(p.ProductoId, p)
             txtDescripcion.Text = p.Descripcion
             txtCostoUltimo.Text = p.CostoUltimo.ToString("N4", CultureInfo.CurrentCulture)
-            txtPrecioBase.Text = p.PrecioBase.ToString("N4", CultureInfo.CurrentCulture)
-            txtPorcentajeIVA.Text = p.PorcentajeIVA.ToString("N2", CultureInfo.CurrentCulture)
             chkPermiteStockNegativo.Checked = p.PermiteStockNegativo
             chkControlaStock.Checked = p.ControlaStock
             chkEsServicio.Checked = p.EsServicio
@@ -438,6 +475,14 @@ Public Partial Class FrmProductos
                 cmbMarca.SelectedValue = 0
             End If
 
+            CargarComboEdicionImpuesto()
+            If p.ImpuestoId > 0 Then
+                AsegurarImpuestoEnCombo(p.ImpuestoId)
+                cmbImpuesto.SelectedValue = p.ImpuestoId
+            Else
+                cmbImpuesto.SelectedValue = 0
+            End If
+
             CargarComboEdicionUnidad()
             AsegurarUnidadEnCombo(p.UnidadMedidaId)
             cmbUnidadMedida.SelectedValue = p.UnidadMedidaId
@@ -456,11 +501,10 @@ Public Partial Class FrmProductos
         _edicionId = 0
         lblIdValor.Text = "—"
         txtCodigo.Clear()
-        txtCodigoBarras.Clear()
+        lstCodigosBarras.Items.Clear()
+        txtNuevoCodigoBarra.Clear()
         txtDescripcion.Clear()
         txtCostoUltimo.Text = "0"
-        txtPrecioBase.Text = "0"
-        txtPorcentajeIVA.Text = "0"
         chkPermiteStockNegativo.Checked = False
         chkControlaStock.Checked = True
         chkEsServicio.Checked = False
@@ -474,6 +518,8 @@ Public Partial Class FrmProductos
         CargarComboEdicionGrupo(0)
         CargarComboEdicionMarca()
         cmbMarca.SelectedValue = 0
+        CargarComboEdicionImpuesto()
+        cmbImpuesto.SelectedValue = 0
         CargarComboEdicionUnidad()
         If cmbUnidadMedida.Items.Count > 0 Then
             cmbUnidadMedida.SelectedIndex = 0
@@ -564,10 +610,6 @@ Public Partial Class FrmProductos
     Private Sub btnGuardar_Click(sender As Object, e As EventArgs) Handles btnGuardar.Click
         Dim costo = ParseDecimalObligatorio(txtCostoUltimo, "Costo último")
         If Not costo.HasValue Then Return
-        Dim precio = ParseDecimalObligatorio(txtPrecioBase, "Precio base")
-        If Not precio.HasValue Then Return
-        Dim iva = ParseDecimalObligatorio(txtPorcentajeIVA, "Porcentaje IVA")
-        If Not iva.HasValue Then Return
 
         Dim grupoSel = ObtenerGrupoIdEdicion()
         Dim umId = ObtenerUnidadMedidaIdEdicion()
@@ -575,17 +617,16 @@ Public Partial Class FrmProductos
             MessageBox.Show("Debe seleccionar una unidad de medida.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End If
+        Dim codigosBarras = ObtenerCodigosBarrasDesdeLista()
         Dim modelo As New Producto With {
             .ProductoId = _edicionId,
             .Codigo = txtCodigo.Text,
-            .CodigoBarras = txtCodigoBarras.Text,
             .Descripcion = txtDescripcion.Text,
             .GrupoId = If(grupoSel > 0, CType(grupoSel, Integer?), Nothing),
             .MarcaId = ObtenerMarcaIdEdicion(),
+            .ImpuestoId = ObtenerImpuestoIdEdicion(),
             .UnidadMedidaId = umId,
             .CostoUltimo = costo.Value,
-            .PrecioBase = precio.Value,
-            .PorcentajeIVA = iva.Value,
             .PermiteStockNegativo = chkPermiteStockNegativo.Checked,
             .ControlaStock = chkControlaStock.Checked,
             .EsServicio = chkEsServicio.Checked,
@@ -597,9 +638,9 @@ Public Partial Class FrmProductos
             Dim aud = LoginAuditoria()
             Dim res As ResultadoOperacion
             If _edicionId = 0 Then
-                res = _servicio.GuardarNuevo(modelo, aud)
+                res = _servicio.GuardarNuevo(modelo, aud, codigosBarras)
             Else
-                res = _servicio.EditarExistente(modelo, aud)
+                res = _servicio.EditarExistente(modelo, aud, codigosBarras)
             End If
             If Not res.Exitoso Then
                 MessageBox.Show(res.Mensaje, Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -648,6 +689,55 @@ Public Partial Class FrmProductos
         RefrescarListado()
         SeleccionarFilaPorId(_edicionId)
         CargarEnFormulario(_edicionId)
+    End Sub
+
+    Private Sub CargarCodigosBarrasEnLista(productoId As Integer, p As Producto)
+        lstCodigosBarras.Items.Clear()
+        txtNuevoCodigoBarra.Clear()
+        Try
+            Dim filas = _servicio.ListarCodigosBarras(productoId)
+            For Each b In filas
+                lstCodigosBarras.Items.Add(b.CodBarras)
+            Next
+        Catch
+            ' Tabla aún no creada u error de BD: mostrar legado si existe.
+        End Try
+        If lstCodigosBarras.Items.Count = 0 AndAlso p IsNot Nothing AndAlso Not String.IsNullOrWhiteSpace(p.CodigoBarras) Then
+            lstCodigosBarras.Items.Add(p.CodigoBarras.Trim())
+        End If
+    End Sub
+
+    Private Function ObtenerCodigosBarrasDesdeLista() As List(Of String)
+        Dim r As New List(Of String)()
+        For Each o In lstCodigosBarras.Items
+            Dim s = TryCast(o, String)
+            If Not String.IsNullOrWhiteSpace(s) Then r.Add(s.Trim())
+        Next
+        Return r
+    End Function
+
+    Private Sub btnAgregarCodigoBarra_Click(sender As Object, e As EventArgs) Handles btnAgregarCodigoBarra.Click
+        Dim t = txtNuevoCodigoBarra.Text.Trim()
+        If t.Length = 0 Then Return
+        If t.Length > 50 Then
+            MessageBox.Show("El código de barras no puede superar 50 caracteres.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+        For Each o In lstCodigosBarras.Items
+            Dim s = TryCast(o, String)
+            If s IsNot Nothing AndAlso String.Equals(s, t, StringComparison.OrdinalIgnoreCase) Then
+                MessageBox.Show("Ese código ya está en la lista.", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+                Return
+            End If
+        Next
+        lstCodigosBarras.Items.Add(t)
+        txtNuevoCodigoBarra.Clear()
+    End Sub
+
+    Private Sub btnQuitarCodigoBarra_Click(sender As Object, e As EventArgs) Handles btnQuitarCodigoBarra.Click
+        Dim i = lstCodigosBarras.SelectedIndex
+        If i < 0 Then Return
+        lstCodigosBarras.Items.RemoveAt(i)
     End Sub
 
     Private Sub btnDesactivar_Click(sender As Object, e As EventArgs) Handles btnDesactivar.Click

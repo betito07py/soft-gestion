@@ -76,6 +76,8 @@
     <Compile Include="Repositories\UnidadMedidaRepository.vb" />
     <Compile Include="Repositories\UnidadMedidaSIFENRepository.vb" />
     <Compile Include="Repositories\ProductoRepository.vb" />
+    <Compile Include="Repositories\ImpuestoRepository.vb" />
+    <Compile Include="Repositories\ProductoBarraRepository.vb" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Mappers\" />

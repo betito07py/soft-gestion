@@ -22,6 +22,8 @@ Partial Class FrmClientes
         Me.btnBuscar = New System.Windows.Forms.Button()
         Me.txtBusqueda = New System.Windows.Forms.TextBox()
         Me.lblBusqueda = New System.Windows.Forms.Label()
+        Me.pnlListaMaestro = New System.Windows.Forms.Panel()
+        Me.lblTituloGrilla = New System.Windows.Forms.Label()
         Me.dgvClientes = New System.Windows.Forms.DataGridView()
         Me.pnlEdicion = New System.Windows.Forms.Panel()
         Me.btnDesactivar = New System.Windows.Forms.Button()
@@ -57,6 +59,7 @@ Partial Class FrmClientes
         Me.lblIdValor = New System.Windows.Forms.Label()
         Me.lblIdTitulo = New System.Windows.Forms.Label()
         Me.pnlBusqueda.SuspendLayout()
+        Me.pnlListaMaestro.SuspendLayout()
         CType(Me.dgvClientes, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlEdicion.SuspendLayout()
         Me.grpDatos.SuspendLayout()
@@ -478,6 +481,7 @@ Partial Class FrmClientes
         Me.pnlBusqueda.ResumeLayout(False)
         Me.pnlBusqueda.PerformLayout()
         CType(Me.dgvClientes, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlListaMaestro.ResumeLayout(False)
         Me.pnlEdicion.ResumeLayout(False)
         Me.grpDatos.ResumeLayout(False)
         Me.grpDatos.PerformLayout()
@@ -490,6 +494,8 @@ Partial Class FrmClientes
     Friend WithEvents btnBuscar As Button
     Friend WithEvents txtBusqueda As TextBox
     Friend WithEvents lblBusqueda As Label
+    Friend WithEvents pnlListaMaestro As Panel
+    Friend WithEvents lblTituloGrilla As Label
     Friend WithEvents dgvClientes As DataGridView
     Friend WithEvents pnlEdicion As Panel
     Friend WithEvents btnDesactivar As Button

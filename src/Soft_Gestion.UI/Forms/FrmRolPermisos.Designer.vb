@@ -21,10 +21,13 @@ Partial Class FrmRolPermisos
         Me.btnRefrescar = New System.Windows.Forms.Button()
         Me.cmbRol = New System.Windows.Forms.ComboBox()
         Me.lblRol = New System.Windows.Forms.Label()
+        Me.pnlListaMaestro = New System.Windows.Forms.Panel()
+        Me.lblTituloGrilla = New System.Windows.Forms.Label()
         Me.dgvPermisos = New System.Windows.Forms.DataGridView()
         Me.pnlInferior = New System.Windows.Forms.Panel()
         Me.btnGuardar = New System.Windows.Forms.Button()
         Me.pnlSuperior.SuspendLayout()
+        Me.pnlListaMaestro.SuspendLayout()
         CType(Me.dgvPermisos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlInferior.SuspendLayout()
         Me.SuspendLayout()
@@ -117,6 +120,7 @@ Partial Class FrmRolPermisos
         Me.pnlSuperior.ResumeLayout(False)
         Me.pnlSuperior.PerformLayout()
         CType(Me.dgvPermisos, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlListaMaestro.ResumeLayout(False)
         Me.pnlInferior.ResumeLayout(False)
         Me.ResumeLayout(False)
 
@@ -126,6 +130,8 @@ Partial Class FrmRolPermisos
     Friend WithEvents btnRefrescar As Button
     Friend WithEvents cmbRol As ComboBox
     Friend WithEvents lblRol As Label
+    Friend WithEvents pnlListaMaestro As Panel
+    Friend WithEvents lblTituloGrilla As Label
     Friend WithEvents dgvPermisos As DataGridView
     Friend WithEvents pnlInferior As Panel
     Friend WithEvents btnGuardar As Button

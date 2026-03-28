@@ -24,6 +24,8 @@ Partial Class FrmSucursales
         Me.lblBusqueda = New System.Windows.Forms.Label()
         Me.cmbEmpresaFiltro = New System.Windows.Forms.ComboBox()
         Me.lblEmpresaFiltro = New System.Windows.Forms.Label()
+        Me.pnlListaMaestro = New System.Windows.Forms.Panel()
+        Me.lblTituloGrilla = New System.Windows.Forms.Label()
         Me.dgvSucursales = New System.Windows.Forms.DataGridView()
         Me.pnlEdicion = New System.Windows.Forms.Panel()
         Me.btnDesactivar = New System.Windows.Forms.Button()
@@ -47,6 +49,7 @@ Partial Class FrmSucursales
         Me.lblIdValor = New System.Windows.Forms.Label()
         Me.lblIdTitulo = New System.Windows.Forms.Label()
         Me.pnlBusqueda.SuspendLayout()
+        Me.pnlListaMaestro.SuspendLayout()
         CType(Me.dgvSucursales, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlEdicion.SuspendLayout()
         Me.grpDatos.SuspendLayout()
@@ -375,6 +378,7 @@ Partial Class FrmSucursales
         Me.pnlBusqueda.ResumeLayout(False)
         Me.pnlBusqueda.PerformLayout()
         CType(Me.dgvSucursales, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlListaMaestro.ResumeLayout(False)
         Me.pnlEdicion.ResumeLayout(False)
         Me.grpDatos.ResumeLayout(False)
         Me.grpDatos.PerformLayout()
@@ -389,6 +393,8 @@ Partial Class FrmSucursales
     Friend WithEvents lblBusqueda As Label
     Friend WithEvents cmbEmpresaFiltro As ComboBox
     Friend WithEvents lblEmpresaFiltro As Label
+    Friend WithEvents pnlListaMaestro As Panel
+    Friend WithEvents lblTituloGrilla As Label
     Friend WithEvents dgvSucursales As DataGridView
     Friend WithEvents pnlEdicion As Panel
     Friend WithEvents btnDesactivar As Button

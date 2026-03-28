@@ -22,6 +22,7 @@ Public NotInheritable Class ClavesFormulario
     Public Const MaestrosGrupos As String = "Maestros.Grupos"
     Public Const MaestrosMarcas As String = "Maestros.Marcas"
     Public Const MaestrosUnidadesMedida As String = "Maestros.UnidadesMedida"
+    Public Const MaestrosImpuestos As String = "Maestros.Impuestos"
 
     Public Const StockModulo As String = "Stock.Modulo"
     Public Const ComprasModulo As String = "Compras.Modulo"

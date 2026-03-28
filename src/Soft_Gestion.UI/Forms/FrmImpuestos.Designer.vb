@@ -1,5 +1,5 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class FrmRoles
+Partial Class FrmImpuestos
     Inherits System.Windows.Forms.Form
 
     <System.Diagnostics.DebuggerNonUserCode()>
@@ -18,36 +18,43 @@ Partial Class FrmRoles
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.pnlBusqueda = New System.Windows.Forms.Panel()
+        Me.chkSoloActivos = New System.Windows.Forms.CheckBox()
         Me.btnNuevo = New System.Windows.Forms.Button()
         Me.btnBuscar = New System.Windows.Forms.Button()
         Me.txtBusqueda = New System.Windows.Forms.TextBox()
         Me.lblBusqueda = New System.Windows.Forms.Label()
         Me.pnlListaMaestro = New System.Windows.Forms.Panel()
         Me.lblTituloGrilla = New System.Windows.Forms.Label()
-        Me.dgvRoles = New System.Windows.Forms.DataGridView()
+        Me.dgvImpuestos = New System.Windows.Forms.DataGridView()
         Me.pnlEdicion = New System.Windows.Forms.Panel()
         Me.btnDesactivar = New System.Windows.Forms.Button()
         Me.btnActivar = New System.Windows.Forms.Button()
         Me.btnCancelar = New System.Windows.Forms.Button()
         Me.btnGuardar = New System.Windows.Forms.Button()
         Me.grpDatos = New System.Windows.Forms.GroupBox()
-        Me.lblPendientePermisos = New System.Windows.Forms.Label()
-        Me.chkActivo = New System.Windows.Forms.CheckBox()
-        Me.txtDescripcion = New System.Windows.Forms.TextBox()
-        Me.lblDescripcion = New System.Windows.Forms.Label()
+        Me.txtCodigoSIFEN = New System.Windows.Forms.TextBox()
+        Me.lblCodigoSIFEN = New System.Windows.Forms.Label()
+        Me.chkEsExento = New System.Windows.Forms.CheckBox()
+        Me.txtPorcentaje = New System.Windows.Forms.TextBox()
+        Me.lblPorcentaje = New System.Windows.Forms.Label()
+        Me.txtTipoImpuesto = New System.Windows.Forms.TextBox()
+        Me.lblTipoImpuesto = New System.Windows.Forms.Label()
         Me.txtNombre = New System.Windows.Forms.TextBox()
         Me.lblNombre = New System.Windows.Forms.Label()
+        Me.txtCodigo = New System.Windows.Forms.TextBox()
+        Me.lblCodigo = New System.Windows.Forms.Label()
+        Me.chkEsActivo = New System.Windows.Forms.CheckBox()
         Me.lblIdValor = New System.Windows.Forms.Label()
         Me.lblIdTitulo = New System.Windows.Forms.Label()
         Me.pnlBusqueda.SuspendLayout()
-        Me.pnlListaMaestro.SuspendLayout()
-        CType(Me.dgvRoles, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dgvImpuestos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlEdicion.SuspendLayout()
         Me.grpDatos.SuspendLayout()
         Me.SuspendLayout()
         '
         'pnlBusqueda
         '
+        Me.pnlBusqueda.Controls.Add(Me.chkSoloActivos)
         Me.pnlBusqueda.Controls.Add(Me.btnNuevo)
         Me.pnlBusqueda.Controls.Add(Me.btnBuscar)
         Me.pnlBusqueda.Controls.Add(Me.txtBusqueda)
@@ -56,13 +63,23 @@ Partial Class FrmRoles
         Me.pnlBusqueda.Location = New System.Drawing.Point(0, 0)
         Me.pnlBusqueda.Name = "pnlBusqueda"
         Me.pnlBusqueda.Padding = New System.Windows.Forms.Padding(8, 8, 8, 4)
-        Me.pnlBusqueda.Size = New System.Drawing.Size(884, 44)
+        Me.pnlBusqueda.Size = New System.Drawing.Size(960, 44)
         Me.pnlBusqueda.TabIndex = 0
+        '
+        'chkSoloActivos
+        '
+        Me.chkSoloActivos.AutoSize = True
+        Me.chkSoloActivos.Location = New System.Drawing.Point(732, 11)
+        Me.chkSoloActivos.Name = "chkSoloActivos"
+        Me.chkSoloActivos.Size = New System.Drawing.Size(84, 17)
+        Me.chkSoloActivos.TabIndex = 4
+        Me.chkSoloActivos.Text = "Solo activos"
+        Me.chkSoloActivos.UseVisualStyleBackColor = True
         '
         'btnNuevo
         '
         Me.btnNuevo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnNuevo.Location = New System.Drawing.Point(797, 8)
+        Me.btnNuevo.Location = New System.Drawing.Point(873, 8)
         Me.btnNuevo.Name = "btnNuevo"
         Me.btnNuevo.Size = New System.Drawing.Size(75, 23)
         Me.btnNuevo.TabIndex = 3
@@ -72,7 +89,7 @@ Partial Class FrmRoles
         'btnBuscar
         '
         Me.btnBuscar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnBuscar.Location = New System.Drawing.Point(716, 8)
+        Me.btnBuscar.Location = New System.Drawing.Point(642, 8)
         Me.btnBuscar.Name = "btnBuscar"
         Me.btnBuscar.Size = New System.Drawing.Size(75, 23)
         Me.btnBuscar.TabIndex = 2
@@ -83,9 +100,9 @@ Partial Class FrmRoles
         '
         Me.txtBusqueda.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtBusqueda.Location = New System.Drawing.Point(128, 10)
+        Me.txtBusqueda.Location = New System.Drawing.Point(140, 10)
         Me.txtBusqueda.Name = "txtBusqueda"
-        Me.txtBusqueda.Size = New System.Drawing.Size(582, 20)
+        Me.txtBusqueda.Size = New System.Drawing.Size(496, 20)
         Me.txtBusqueda.TabIndex = 1
         '
         'lblBusqueda
@@ -93,24 +110,38 @@ Partial Class FrmRoles
         Me.lblBusqueda.AutoSize = True
         Me.lblBusqueda.Location = New System.Drawing.Point(11, 13)
         Me.lblBusqueda.Name = "lblBusqueda"
-        Me.lblBusqueda.Size = New System.Drawing.Size(87, 13)
+        Me.lblBusqueda.Size = New System.Drawing.Size(110, 13)
         Me.lblBusqueda.TabIndex = 0
-        Me.lblBusqueda.Text = "Nombre o detalle"
+        Me.lblBusqueda.Text = "Código, nombre o tipo"
         '
-        'dgvRoles
+        'pnlListaMaestro
         '
-        Me.dgvRoles.AllowUserToAddRows = False
-        Me.dgvRoles.AllowUserToDeleteRows = False
-        Me.dgvRoles.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvRoles.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.dgvRoles.Location = New System.Drawing.Point(0, 44)
-        Me.dgvRoles.MultiSelect = False
-        Me.dgvRoles.Name = "dgvRoles"
-        Me.dgvRoles.ReadOnly = True
-        Me.dgvRoles.RowHeadersVisible = False
-        Me.dgvRoles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgvRoles.Size = New System.Drawing.Size(884, 299)
-        Me.dgvRoles.TabIndex = 1
+        Me.pnlListaMaestro.Location = New System.Drawing.Point(0, 0)
+        Me.pnlListaMaestro.Name = "pnlListaMaestro"
+        Me.pnlListaMaestro.Size = New System.Drawing.Size(200, 100)
+        Me.pnlListaMaestro.TabIndex = 0
+        '
+        'lblTituloGrilla
+        '
+        Me.lblTituloGrilla.Location = New System.Drawing.Point(0, 0)
+        Me.lblTituloGrilla.Name = "lblTituloGrilla"
+        Me.lblTituloGrilla.Size = New System.Drawing.Size(100, 23)
+        Me.lblTituloGrilla.TabIndex = 0
+        '
+        'dgvImpuestos
+        '
+        Me.dgvImpuestos.AllowUserToAddRows = False
+        Me.dgvImpuestos.AllowUserToDeleteRows = False
+        Me.dgvImpuestos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvImpuestos.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.dgvImpuestos.Location = New System.Drawing.Point(0, 44)
+        Me.dgvImpuestos.MultiSelect = False
+        Me.dgvImpuestos.Name = "dgvImpuestos"
+        Me.dgvImpuestos.ReadOnly = True
+        Me.dgvImpuestos.RowHeadersVisible = False
+        Me.dgvImpuestos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dgvImpuestos.Size = New System.Drawing.Size(960, 236)
+        Me.dgvImpuestos.TabIndex = 1
         '
         'pnlEdicion
         '
@@ -120,16 +151,16 @@ Partial Class FrmRoles
         Me.pnlEdicion.Controls.Add(Me.btnGuardar)
         Me.pnlEdicion.Controls.Add(Me.grpDatos)
         Me.pnlEdicion.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.pnlEdicion.Location = New System.Drawing.Point(0, 343)
+        Me.pnlEdicion.Location = New System.Drawing.Point(0, 280)
         Me.pnlEdicion.Name = "pnlEdicion"
         Me.pnlEdicion.Padding = New System.Windows.Forms.Padding(8, 4, 8, 8)
-        Me.pnlEdicion.Size = New System.Drawing.Size(884, 218)
+        Me.pnlEdicion.Size = New System.Drawing.Size(960, 280)
         Me.pnlEdicion.TabIndex = 2
         '
         'btnDesactivar
         '
         Me.btnDesactivar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDesactivar.Location = New System.Drawing.Point(197, 182)
+        Me.btnDesactivar.Location = New System.Drawing.Point(105, 244)
         Me.btnDesactivar.Name = "btnDesactivar"
         Me.btnDesactivar.Size = New System.Drawing.Size(88, 28)
         Me.btnDesactivar.TabIndex = 4
@@ -139,7 +170,7 @@ Partial Class FrmRoles
         'btnActivar
         '
         Me.btnActivar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnActivar.Location = New System.Drawing.Point(103, 182)
+        Me.btnActivar.Location = New System.Drawing.Point(11, 244)
         Me.btnActivar.Name = "btnActivar"
         Me.btnActivar.Size = New System.Drawing.Size(88, 28)
         Me.btnActivar.TabIndex = 3
@@ -149,7 +180,7 @@ Partial Class FrmRoles
         'btnCancelar
         '
         Me.btnCancelar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnCancelar.Location = New System.Drawing.Point(701, 182)
+        Me.btnCancelar.Location = New System.Drawing.Point(777, 244)
         Me.btnCancelar.Name = "btnCancelar"
         Me.btnCancelar.Size = New System.Drawing.Size(80, 28)
         Me.btnCancelar.TabIndex = 2
@@ -159,7 +190,7 @@ Partial Class FrmRoles
         'btnGuardar
         '
         Me.btnGuardar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnGuardar.Location = New System.Drawing.Point(787, 182)
+        Me.btnGuardar.Location = New System.Drawing.Point(863, 244)
         Me.btnGuardar.Name = "btnGuardar"
         Me.btnGuardar.Size = New System.Drawing.Size(85, 28)
         Me.btnGuardar.TabIndex = 1
@@ -171,86 +202,136 @@ Partial Class FrmRoles
         Me.grpDatos.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.grpDatos.Controls.Add(Me.lblPendientePermisos)
-        Me.grpDatos.Controls.Add(Me.chkActivo)
-        Me.grpDatos.Controls.Add(Me.txtDescripcion)
-        Me.grpDatos.Controls.Add(Me.lblDescripcion)
+        Me.grpDatos.Controls.Add(Me.txtCodigoSIFEN)
+        Me.grpDatos.Controls.Add(Me.lblCodigoSIFEN)
+        Me.grpDatos.Controls.Add(Me.chkEsExento)
+        Me.grpDatos.Controls.Add(Me.txtPorcentaje)
+        Me.grpDatos.Controls.Add(Me.lblPorcentaje)
+        Me.grpDatos.Controls.Add(Me.txtTipoImpuesto)
+        Me.grpDatos.Controls.Add(Me.lblTipoImpuesto)
         Me.grpDatos.Controls.Add(Me.txtNombre)
         Me.grpDatos.Controls.Add(Me.lblNombre)
+        Me.grpDatos.Controls.Add(Me.txtCodigo)
+        Me.grpDatos.Controls.Add(Me.lblCodigo)
+        Me.grpDatos.Controls.Add(Me.chkEsActivo)
         Me.grpDatos.Controls.Add(Me.lblIdValor)
         Me.grpDatos.Controls.Add(Me.lblIdTitulo)
         Me.grpDatos.Location = New System.Drawing.Point(11, 4)
         Me.grpDatos.Name = "grpDatos"
-        Me.grpDatos.Size = New System.Drawing.Size(861, 172)
+        Me.grpDatos.Size = New System.Drawing.Size(937, 234)
         Me.grpDatos.TabIndex = 0
         Me.grpDatos.TabStop = False
-        Me.grpDatos.Text = "Datos del rol"
+        Me.grpDatos.Text = "Datos del impuesto"
         '
-        'lblPendientePermisos
+        'txtCodigoSIFEN
         '
-        Me.lblPendientePermisos.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.txtCodigoSIFEN.Location = New System.Drawing.Point(120, 192)
+        Me.txtCodigoSIFEN.Name = "txtCodigoSIFEN"
+        Me.txtCodigoSIFEN.Size = New System.Drawing.Size(100, 20)
+        Me.txtCodigoSIFEN.TabIndex = 12
+        '
+        'lblCodigoSIFEN
+        '
+        Me.lblCodigoSIFEN.AutoSize = True
+        Me.lblCodigoSIFEN.Location = New System.Drawing.Point(13, 195)
+        Me.lblCodigoSIFEN.Name = "lblCodigoSIFEN"
+        Me.lblCodigoSIFEN.Size = New System.Drawing.Size(74, 13)
+        Me.lblCodigoSIFEN.TabIndex = 11
+        Me.lblCodigoSIFEN.Text = "Código SIFEN"
+        '
+        'chkEsExento
+        '
+        Me.chkEsExento.AutoSize = True
+        Me.chkEsExento.Location = New System.Drawing.Point(320, 160)
+        Me.chkEsExento.Name = "chkEsExento"
+        Me.chkEsExento.Size = New System.Drawing.Size(73, 17)
+        Me.chkEsExento.TabIndex = 10
+        Me.chkEsExento.Text = "Es exento"
+        Me.chkEsExento.UseVisualStyleBackColor = True
+        '
+        'txtPorcentaje
+        '
+        Me.txtPorcentaje.Location = New System.Drawing.Point(120, 158)
+        Me.txtPorcentaje.Name = "txtPorcentaje"
+        Me.txtPorcentaje.Size = New System.Drawing.Size(80, 20)
+        Me.txtPorcentaje.TabIndex = 9
+        '
+        'lblPorcentaje
+        '
+        Me.lblPorcentaje.AutoSize = True
+        Me.lblPorcentaje.Location = New System.Drawing.Point(13, 161)
+        Me.lblPorcentaje.Name = "lblPorcentaje"
+        Me.lblPorcentaje.Size = New System.Drawing.Size(58, 13)
+        Me.lblPorcentaje.TabIndex = 8
+        Me.lblPorcentaje.Text = "Porcentaje"
+        '
+        'txtTipoImpuesto
+        '
+        Me.txtTipoImpuesto.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblPendientePermisos.ForeColor = System.Drawing.SystemColors.GrayText
-        Me.lblPendientePermisos.Location = New System.Drawing.Point(16, 148)
-        Me.lblPendientePermisos.Name = "lblPendientePermisos"
-        Me.lblPendientePermisos.Size = New System.Drawing.Size(829, 18)
-        Me.lblPendientePermisos.TabIndex = 7
-        Me.lblPendientePermisos.Text = "Permisos: la asignación por rol (tabla RolPermisos) se incorporará en un paso sig" &
-    "uiente."
+        Me.txtTipoImpuesto.Location = New System.Drawing.Point(120, 124)
+        Me.txtTipoImpuesto.Name = "txtTipoImpuesto"
+        Me.txtTipoImpuesto.Size = New System.Drawing.Size(800, 20)
+        Me.txtTipoImpuesto.TabIndex = 7
         '
-        'chkActivo
+        'lblTipoImpuesto
         '
-        Me.chkActivo.AutoSize = True
-        Me.chkActivo.Enabled = False
-        Me.chkActivo.Location = New System.Drawing.Point(520, 28)
-        Me.chkActivo.Name = "chkActivo"
-        Me.chkActivo.Size = New System.Drawing.Size(56, 17)
-        Me.chkActivo.TabIndex = 6
-        Me.chkActivo.Text = "Activo"
-        Me.chkActivo.UseVisualStyleBackColor = True
-        '
-        'txtDescripcion
-        '
-        Me.txtDescripcion.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtDescripcion.Location = New System.Drawing.Point(16, 104)
-        Me.txtDescripcion.Multiline = True
-        Me.txtDescripcion.Name = "txtDescripcion"
-        Me.txtDescripcion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtDescripcion.Size = New System.Drawing.Size(829, 40)
-        Me.txtDescripcion.TabIndex = 5
-        '
-        'lblDescripcion
-        '
-        Me.lblDescripcion.AutoSize = True
-        Me.lblDescripcion.Location = New System.Drawing.Point(13, 88)
-        Me.lblDescripcion.Name = "lblDescripcion"
-        Me.lblDescripcion.Size = New System.Drawing.Size(63, 13)
-        Me.lblDescripcion.TabIndex = 4
-        Me.lblDescripcion.Text = "Descripción"
+        Me.lblTipoImpuesto.AutoSize = True
+        Me.lblTipoImpuesto.Location = New System.Drawing.Point(13, 127)
+        Me.lblTipoImpuesto.Name = "lblTipoImpuesto"
+        Me.lblTipoImpuesto.Size = New System.Drawing.Size(88, 13)
+        Me.lblTipoImpuesto.TabIndex = 6
+        Me.lblTipoImpuesto.Text = "Tipo de impuesto"
         '
         'txtNombre
         '
         Me.txtNombre.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtNombre.Location = New System.Drawing.Point(16, 56)
+        Me.txtNombre.Location = New System.Drawing.Point(120, 92)
         Me.txtNombre.Name = "txtNombre"
-        Me.txtNombre.Size = New System.Drawing.Size(480, 20)
-        Me.txtNombre.TabIndex = 3
+        Me.txtNombre.Size = New System.Drawing.Size(800, 20)
+        Me.txtNombre.TabIndex = 5
         '
         'lblNombre
         '
         Me.lblNombre.AutoSize = True
-        Me.lblNombre.Location = New System.Drawing.Point(13, 40)
+        Me.lblNombre.Location = New System.Drawing.Point(13, 95)
         Me.lblNombre.Name = "lblNombre"
         Me.lblNombre.Size = New System.Drawing.Size(44, 13)
-        Me.lblNombre.TabIndex = 2
+        Me.lblNombre.TabIndex = 4
         Me.lblNombre.Text = "Nombre"
+        '
+        'txtCodigo
+        '
+        Me.txtCodigo.Location = New System.Drawing.Point(120, 60)
+        Me.txtCodigo.Name = "txtCodigo"
+        Me.txtCodigo.Size = New System.Drawing.Size(120, 20)
+        Me.txtCodigo.TabIndex = 3
+        '
+        'lblCodigo
+        '
+        Me.lblCodigo.AutoSize = True
+        Me.lblCodigo.Location = New System.Drawing.Point(13, 63)
+        Me.lblCodigo.Name = "lblCodigo"
+        Me.lblCodigo.Size = New System.Drawing.Size(79, 13)
+        Me.lblCodigo.TabIndex = 2
+        Me.lblCodigo.Text = "Código (entero)"
+        '
+        'chkEsActivo
+        '
+        Me.chkEsActivo.AutoSize = True
+        Me.chkEsActivo.Enabled = False
+        Me.chkEsActivo.Location = New System.Drawing.Point(520, 22)
+        Me.chkEsActivo.Name = "chkEsActivo"
+        Me.chkEsActivo.Size = New System.Drawing.Size(56, 17)
+        Me.chkEsActivo.TabIndex = 1
+        Me.chkEsActivo.Text = "Activo"
+        Me.chkEsActivo.UseVisualStyleBackColor = True
         '
         'lblIdValor
         '
         Me.lblIdValor.AutoSize = True
-        Me.lblIdValor.Location = New System.Drawing.Point(45, 20)
+        Me.lblIdValor.Location = New System.Drawing.Point(45, 24)
         Me.lblIdValor.Name = "lblIdValor"
         Me.lblIdValor.Size = New System.Drawing.Size(13, 13)
         Me.lblIdValor.TabIndex = 1
@@ -259,28 +340,27 @@ Partial Class FrmRoles
         'lblIdTitulo
         '
         Me.lblIdTitulo.AutoSize = True
-        Me.lblIdTitulo.Location = New System.Drawing.Point(13, 20)
+        Me.lblIdTitulo.Location = New System.Drawing.Point(13, 24)
         Me.lblIdTitulo.Name = "lblIdTitulo"
         Me.lblIdTitulo.Size = New System.Drawing.Size(16, 13)
         Me.lblIdTitulo.TabIndex = 0
         Me.lblIdTitulo.Text = "Id"
         '
-        'FrmRoles
+        'FrmImpuestos
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(884, 561)
-        Me.Controls.Add(Me.dgvRoles)
+        Me.ClientSize = New System.Drawing.Size(960, 560)
+        Me.Controls.Add(Me.dgvImpuestos)
         Me.Controls.Add(Me.pnlEdicion)
         Me.Controls.Add(Me.pnlBusqueda)
         Me.MinimizeBox = False
-        Me.Name = "FrmRoles"
+        Me.Name = "FrmImpuestos"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Roles"
+        Me.Text = "Impuestos"
         Me.pnlBusqueda.ResumeLayout(False)
         Me.pnlBusqueda.PerformLayout()
-        CType(Me.dgvRoles, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlListaMaestro.ResumeLayout(False)
+        CType(Me.dgvImpuestos, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlEdicion.ResumeLayout(False)
         Me.grpDatos.ResumeLayout(False)
         Me.grpDatos.PerformLayout()
@@ -289,25 +369,32 @@ Partial Class FrmRoles
     End Sub
 
     Friend WithEvents pnlBusqueda As Panel
+    Friend WithEvents chkSoloActivos As CheckBox
     Friend WithEvents btnNuevo As Button
     Friend WithEvents btnBuscar As Button
     Friend WithEvents txtBusqueda As TextBox
     Friend WithEvents lblBusqueda As Label
     Friend WithEvents pnlListaMaestro As Panel
     Friend WithEvents lblTituloGrilla As Label
-    Friend WithEvents dgvRoles As DataGridView
+    Friend WithEvents dgvImpuestos As DataGridView
     Friend WithEvents pnlEdicion As Panel
     Friend WithEvents btnDesactivar As Button
     Friend WithEvents btnActivar As Button
     Friend WithEvents btnCancelar As Button
     Friend WithEvents btnGuardar As Button
     Friend WithEvents grpDatos As GroupBox
-    Friend WithEvents lblPendientePermisos As Label
-    Friend WithEvents chkActivo As CheckBox
-    Friend WithEvents txtDescripcion As TextBox
-    Friend WithEvents lblDescripcion As Label
+    Friend WithEvents txtCodigoSIFEN As TextBox
+    Friend WithEvents lblCodigoSIFEN As Label
+    Friend WithEvents chkEsExento As CheckBox
+    Friend WithEvents txtPorcentaje As TextBox
+    Friend WithEvents lblPorcentaje As Label
+    Friend WithEvents txtTipoImpuesto As TextBox
+    Friend WithEvents lblTipoImpuesto As Label
     Friend WithEvents txtNombre As TextBox
     Friend WithEvents lblNombre As Label
+    Friend WithEvents txtCodigo As TextBox
+    Friend WithEvents lblCodigo As Label
+    Friend WithEvents chkEsActivo As CheckBox
     Friend WithEvents lblIdValor As Label
     Friend WithEvents lblIdTitulo As Label
 End Class

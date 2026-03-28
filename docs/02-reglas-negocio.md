@@ -86,7 +86,7 @@
    - marca
    - unidad de medida
 
-5. Debe existir costo y precio base inicial.
+5. Debe existir costo último; los precios de venta se definen por listas de precios.
 6. Debe quedar prevista la gestión de IVA por producto.
 
 ---

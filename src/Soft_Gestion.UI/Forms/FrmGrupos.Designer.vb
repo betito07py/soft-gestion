@@ -26,6 +26,8 @@ Partial Class FrmGrupos
         Me.lblFiltroSubCategoria = New System.Windows.Forms.Label()
         Me.cmbFiltroCategoria = New System.Windows.Forms.ComboBox()
         Me.lblFiltroCategoria = New System.Windows.Forms.Label()
+        Me.pnlListaMaestro = New System.Windows.Forms.Panel()
+        Me.lblTituloGrilla = New System.Windows.Forms.Label()
         Me.dgvGrupos = New System.Windows.Forms.DataGridView()
         Me.pnlEdicion = New System.Windows.Forms.Panel()
         Me.btnDesactivar = New System.Windows.Forms.Button()
@@ -45,6 +47,7 @@ Partial Class FrmGrupos
         Me.lblIdValor = New System.Windows.Forms.Label()
         Me.lblIdTitulo = New System.Windows.Forms.Label()
         Me.pnlBusqueda.SuspendLayout()
+        Me.pnlListaMaestro.SuspendLayout()
         CType(Me.dgvGrupos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlEdicion.SuspendLayout()
         Me.grpDatos.SuspendLayout()
@@ -351,6 +354,7 @@ Partial Class FrmGrupos
         Me.pnlBusqueda.ResumeLayout(False)
         Me.pnlBusqueda.PerformLayout()
         CType(Me.dgvGrupos, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlListaMaestro.ResumeLayout(False)
         Me.pnlEdicion.ResumeLayout(False)
         Me.grpDatos.ResumeLayout(False)
         Me.grpDatos.PerformLayout()
@@ -367,6 +371,8 @@ Partial Class FrmGrupos
     Friend WithEvents lblFiltroSubCategoria As Label
     Friend WithEvents cmbFiltroCategoria As ComboBox
     Friend WithEvents lblFiltroCategoria As Label
+    Friend WithEvents pnlListaMaestro As Panel
+    Friend WithEvents lblTituloGrilla As Label
     Friend WithEvents dgvGrupos As DataGridView
     Friend WithEvents pnlEdicion As Panel
     Friend WithEvents btnDesactivar As Button

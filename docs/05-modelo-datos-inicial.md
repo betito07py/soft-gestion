@@ -528,8 +528,8 @@ Administrar artículos del sistema.
 - `MarcaId` INT NULL
 - `UnidadMedidaId` INT NOT NULL
 - `CostoUltimo` DECIMAL(18,4) NOT NULL
-- `PrecioBase` DECIMAL(18,4) NOT NULL
 - `PorcentajeIVA` DECIMAL(5,2) NOT NULL
+- (Si en la base existe `PrecioBase`, la aplicación no la usa; precios de venta vía listas de precios.)
 - `PermiteStockNegativo` BIT NOT NULL
 - `ControlaStock` BIT NOT NULL
 - `EsServicio` BIT NOT NULL

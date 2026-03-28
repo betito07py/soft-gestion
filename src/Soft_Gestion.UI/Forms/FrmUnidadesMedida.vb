@@ -9,6 +9,12 @@ Imports Soft_Gestion.Domain
 ''' </summary>
 Public Partial Class FrmUnidadesMedida
 
+    Public Sub New()
+        MyBase.New()
+        InitializeComponent()
+        MaestroListaEncabezadoHelper.AplicarEncabezadoGrilla(Me, pnlListaMaestro, lblTituloGrilla, dgvUnidadesMedida, "Unidades de medida")
+    End Sub
+
     Public Shared ReadOnly Property ClaveFormularioPermiso As String
         Get
             Return ClavesFormulario.MaestrosUnidadesMedida

@@ -15,25 +15,31 @@ Public Class ProductoService
     Private Const LongitudMaxObservaciones As Integer = 255
 
     Private ReadOnly _productos As ProductoRepository
+    Private ReadOnly _productosBarras As ProductoBarraRepository
     Private ReadOnly _grupos As GrupoRepository
     Private ReadOnly _subcategorias As SubCategoriaRepository
     Private ReadOnly _marcas As MarcaRepository
     Private ReadOnly _unidades As UnidadMedidaRepository
     Private ReadOnly _categorias As CategoriaRepository
+    Private ReadOnly _impuestos As ImpuestoRepository
 
     Public Sub New(Optional productos As ProductoRepository = Nothing,
+                   Optional productosBarras As ProductoBarraRepository = Nothing,
                    Optional grupos As GrupoRepository = Nothing,
                    Optional subcategorias As SubCategoriaRepository = Nothing,
                    Optional marcas As MarcaRepository = Nothing,
                    Optional unidades As UnidadMedidaRepository = Nothing,
-                   Optional categorias As CategoriaRepository = Nothing)
+                   Optional categorias As CategoriaRepository = Nothing,
+                   Optional impuestos As ImpuestoRepository = Nothing)
         MyBase.New()
         _productos = If(productos, New ProductoRepository())
+        _productosBarras = If(productosBarras, New ProductoBarraRepository())
         _grupos = If(grupos, New GrupoRepository())
         _subcategorias = If(subcategorias, New SubCategoriaRepository())
         _marcas = If(marcas, New MarcaRepository())
         _unidades = If(unidades, New UnidadMedidaRepository())
         _categorias = If(categorias, New CategoriaRepository())
+        _impuestos = If(impuestos, New ImpuestoRepository())
     End Sub
 
     Public Function ListarProductos(filtroTexto As String,
@@ -47,6 +53,12 @@ Public Class ProductoService
 
     Public Function ObtenerPorId(productoId As Integer) As Producto
         Return _productos.ObtenerPorId(productoId)
+    End Function
+
+    ''' <summary>Códigos de barras asociados al producto (tabla <c>Productos_Barras</c>).</summary>
+    Public Function ListarCodigosBarras(productoId As Integer) As List(Of ProductoBarra)
+        If productoId <= 0 Then Return New List(Of ProductoBarra)()
+        Return _productosBarras.ListarPorProductoId(productoId)
     End Function
 
     Public Function ObtenerGrupoPorId(grupoId As Integer) As Grupo
@@ -89,6 +101,18 @@ Public Class ProductoService
         Return _unidades.ListarActivasParaCombo()
     End Function
 
+    Public Function ListarImpuestosActivosParaSelector() As List(Of ImpuestoSelectorItem)
+        Return _impuestos.ListarParaSelector()
+    End Function
+
+    ''' <summary>Incluye impuesto inactivo si el producto ya lo tenía asignado.</summary>
+    Public Function ObtenerItemImpuestoParaEdicion(impuestoId As Integer?) As ImpuestoSelectorItem
+        If Not impuestoId.HasValue OrElse impuestoId.Value <= 0 Then Return Nothing
+        Dim i = _impuestos.ObtenerPorId(impuestoId.Value)
+        If i Is Nothing Then Return Nothing
+        Return New ImpuestoSelectorItem With {.ImpuestoId = i.ImpuestoId, .Nombre = i.Codigo.ToString() & " — " & i.Nombre}
+    End Function
+
     ''' <summary>Incluye grupo inactivo si el producto ya lo tenía y no está en el combo de activos.</summary>
     Public Function ObtenerItemGrupoParaEdicion(grupoId As Integer?) As GrupoSelectorItem
         If Not grupoId.HasValue OrElse grupoId.Value <= 0 Then Return Nothing
@@ -121,29 +145,36 @@ Public Class ProductoService
         }
     End Function
 
-    Public Function GuardarNuevo(p As Producto, usuarioAuditoria As String) As ResultadoOperacion
+    Public Function GuardarNuevo(p As Producto, usuarioAuditoria As String, Optional codigosBarras As IList(Of String) = Nothing) As ResultadoOperacion
         If p Is Nothing Then Return ResultadoOperacion.Fallo("Datos de producto no válidos.")
         If String.IsNullOrWhiteSpace(usuarioAuditoria) Then Return ResultadoOperacion.Fallo("No se pudo determinar el usuario de auditoría.")
         p.Codigo = CodigoNegocio.NormalizarSinCerosIzquierda(p.Codigo)
         AplicarReglaServicioSinStock(p)
         Dim val = ValidarProducto(p)
         If Not val.Exitoso Then Return val
+        Dim listaBarras = NormalizarListaCodigosBarrasEntrada(codigosBarras)
+        Dim valBarras = ValidarCodigosBarras(listaBarras, Nothing)
+        If Not valBarras.Exitoso Then Return valBarras
         Dim ref = ValidarGrupoMarcaUnidad(p, Nothing)
         If Not ref.Exitoso Then Return ref
+        Dim refImp = ValidarImpuestoProducto(p, Nothing)
+        If Not refImp.Exitoso Then Return refImp
+        Dim impGuardar = _impuestos.ObtenerPorId(p.ImpuestoId)
+        If impGuardar Is Nothing Then Return ResultadoOperacion.Fallo("El impuesto no existe.")
         If _productos.ExisteCodigo(p.Codigo, Nothing) Then
             Return ResultadoOperacion.Fallo("Ya existe un producto con ese código.")
         End If
 
+        Dim primeroBarra As String = If(listaBarras.Count > 0, listaBarras(0), Nothing)
         Dim nuevo As New Producto With {
             .Codigo = p.Codigo,
-            .CodigoBarras = NormalizarOpcional(p.CodigoBarras),
+            .CodigoBarras = primeroBarra,
             .Descripcion = p.Descripcion.Trim(),
             .GrupoId = p.GrupoId,
             .MarcaId = p.MarcaId,
+            .ImpuestoId = p.ImpuestoId,
             .UnidadMedidaId = p.UnidadMedidaId,
             .CostoUltimo = p.CostoUltimo,
-            .PrecioBase = p.PrecioBase,
-            .PorcentajeIVA = p.PorcentajeIVA,
             .PermiteStockNegativo = p.PermiteStockNegativo,
             .ControlaStock = p.ControlaStock,
             .EsServicio = p.EsServicio,
@@ -152,46 +183,62 @@ Public Class ProductoService
             .UsuarioCreacion = usuarioAuditoria.Trim()
         }
         Try
-            Dim id = _productos.Insertar(nuevo)
+            Dim id = _productos.Insertar(nuevo, impGuardar.Porcentaje)
+            Try
+                _productosBarras.ReemplazarTodos(id, listaBarras)
+            Catch
+                Return ResultadoOperacion.Fallo("El producto se guardó pero no se pudieron registrar los códigos de barras (¿duplicado en otro producto?).")
+            End Try
             Return ResultadoOperacion.Ok(id)
         Catch
             Return ResultadoOperacion.Fallo("No se pudo guardar el producto.")
         End Try
     End Function
 
-    Public Function EditarExistente(p As Producto, usuarioAuditoria As String) As ResultadoOperacion
+    Public Function EditarExistente(p As Producto, usuarioAuditoria As String, Optional codigosBarras As IList(Of String) = Nothing) As ResultadoOperacion
         If p Is Nothing OrElse p.ProductoId <= 0 Then Return ResultadoOperacion.Fallo("Producto no válido.")
         If String.IsNullOrWhiteSpace(usuarioAuditoria) Then Return ResultadoOperacion.Fallo("No se pudo determinar el usuario de auditoría.")
         p.Codigo = CodigoNegocio.NormalizarSinCerosIzquierda(p.Codigo)
         AplicarReglaServicioSinStock(p)
         Dim val = ValidarProducto(p)
         If Not val.Exitoso Then Return val
+        Dim listaBarras = NormalizarListaCodigosBarrasEntrada(codigosBarras)
+        Dim valBarras = ValidarCodigosBarras(listaBarras, p.ProductoId)
+        If Not valBarras.Exitoso Then Return valBarras
 
         Dim existente = _productos.ObtenerPorId(p.ProductoId)
         If existente Is Nothing Then Return ResultadoOperacion.Fallo("El producto no existe.")
         Dim ref = ValidarGrupoMarcaUnidad(p, existente)
         If Not ref.Exitoso Then Return ref
+        Dim refImp = ValidarImpuestoProducto(p, existente)
+        If Not refImp.Exitoso Then Return refImp
+        Dim impGuardar = _impuestos.ObtenerPorId(p.ImpuestoId)
+        If impGuardar Is Nothing Then Return ResultadoOperacion.Fallo("El impuesto no existe.")
         If _productos.ExisteCodigo(p.Codigo, p.ProductoId) Then
             Return ResultadoOperacion.Fallo("Ya existe otro producto con ese código.")
         End If
 
         existente.Codigo = p.Codigo
-        existente.CodigoBarras = NormalizarOpcional(p.CodigoBarras)
+        existente.CodigoBarras = If(listaBarras.Count > 0, listaBarras(0), Nothing)
         existente.Descripcion = p.Descripcion.Trim()
         existente.GrupoId = p.GrupoId
         existente.MarcaId = p.MarcaId
+        existente.ImpuestoId = p.ImpuestoId
         existente.UnidadMedidaId = p.UnidadMedidaId
         existente.CostoUltimo = p.CostoUltimo
-        existente.PrecioBase = p.PrecioBase
-        existente.PorcentajeIVA = p.PorcentajeIVA
         existente.PermiteStockNegativo = p.PermiteStockNegativo
         existente.ControlaStock = p.ControlaStock
         existente.EsServicio = p.EsServicio
         existente.Observaciones = NormalizarOpcional(p.Observaciones)
 
         Try
-            Dim filas = _productos.Actualizar(existente, usuarioAuditoria.Trim())
+            Dim filas = _productos.Actualizar(existente, usuarioAuditoria.Trim(), impGuardar.Porcentaje)
             If filas = 0 Then Return ResultadoOperacion.Fallo("No se pudo actualizar el producto.")
+            Try
+                _productosBarras.ReemplazarTodos(p.ProductoId, listaBarras)
+            Catch
+                Return ResultadoOperacion.Fallo("El producto se actualizó pero no se pudieron guardar los códigos de barras (¿duplicado en otro producto?).")
+            End Try
             Return ResultadoOperacion.Ok()
         Catch
             Return ResultadoOperacion.Fallo("No se pudo actualizar el producto.")
@@ -226,9 +273,6 @@ Public Class ProductoService
     Private Function ValidarProducto(p As Producto) As ResultadoOperacion
         If String.IsNullOrWhiteSpace(p.Codigo) Then Return ResultadoOperacion.Fallo("El código es obligatorio.")
         If p.Codigo.Length > LongitudMaxCodigo Then Return ResultadoOperacion.Fallo("El código supera la longitud permitida.")
-        If Not String.IsNullOrWhiteSpace(p.CodigoBarras) AndAlso p.CodigoBarras.Trim().Length > LongitudMaxCodigoBarras Then
-            Return ResultadoOperacion.Fallo("El código de barras supera la longitud permitida.")
-        End If
         If String.IsNullOrWhiteSpace(p.Descripcion) Then Return ResultadoOperacion.Fallo("La descripción es obligatoria.")
         If p.Descripcion.Trim().Length > LongitudMaxDescripcion Then Return ResultadoOperacion.Fallo("La descripción supera la longitud permitida.")
         If Not String.IsNullOrWhiteSpace(p.Observaciones) AndAlso p.Observaciones.Trim().Length > LongitudMaxObservaciones Then
@@ -236,10 +280,49 @@ Public Class ProductoService
         End If
         If p.UnidadMedidaId <= 0 Then Return ResultadoOperacion.Fallo("Debe seleccionar una unidad de medida.")
         If p.CostoUltimo < 0 Then Return ResultadoOperacion.Fallo("El costo último no puede ser negativo.")
-        If p.PrecioBase < 0 Then Return ResultadoOperacion.Fallo("El precio base no puede ser negativo.")
-        If p.PorcentajeIVA < 0 OrElse p.PorcentajeIVA > 100 Then Return ResultadoOperacion.Fallo("El porcentaje de IVA debe estar entre 0 y 100.")
         If p.EsServicio AndAlso p.ControlaStock Then
             Return ResultadoOperacion.Fallo("Un servicio no puede controlar stock.")
+        End If
+        Return ResultadoOperacion.Ok()
+    End Function
+
+    Private Function ValidarCodigosBarras(codigosNormalizados As List(Of String), excluirProductoId As Integer?) As ResultadoOperacion
+        If codigosNormalizados Is Nothing Then Return ResultadoOperacion.Ok()
+        Dim vistos As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+        For Each c In codigosNormalizados
+            If c.Length > LongitudMaxCodigoBarras Then
+                Return ResultadoOperacion.Fallo("Un código de barras supera la longitud permitida (" & LongitudMaxCodigoBarras & " caracteres).")
+            End If
+            If Not vistos.Add(c) Then
+                Return ResultadoOperacion.Fallo("Hay códigos de barras repetidos en la lista.")
+            End If
+            If _productosBarras.ExisteCodBarrasEnOtroProducto(c, excluirProductoId) Then
+                Return ResultadoOperacion.Fallo("El código de barras """ & c & """ ya está asignado a otro producto.")
+            End If
+        Next
+        Return ResultadoOperacion.Ok()
+    End Function
+
+    Private Shared Function NormalizarListaCodigosBarrasEntrada(codigos As IList(Of String)) As List(Of String)
+        Dim r As New List(Of String)()
+        If codigos Is Nothing Then Return r
+        Dim vistos As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+        For Each c In codigos
+            If String.IsNullOrWhiteSpace(c) Then Continue For
+            Dim t = c.Trim()
+            If vistos.Add(t) Then r.Add(t)
+        Next
+        Return r
+    End Function
+
+    Private Function ValidarImpuestoProducto(p As Producto, existente As Producto) As ResultadoOperacion
+        If p.ImpuestoId <= 0 Then Return ResultadoOperacion.Fallo("Debe seleccionar un impuesto.")
+        Dim imp = _impuestos.ObtenerPorId(p.ImpuestoId)
+        If imp Is Nothing Then Return ResultadoOperacion.Fallo("El impuesto no existe.")
+        Dim esNuevo = existente Is Nothing
+        Dim cambioImpuesto = esNuevo OrElse existente.ImpuestoId <> p.ImpuestoId
+        If Not imp.EsActivo AndAlso cambioImpuesto Then
+            Return ResultadoOperacion.Fallo("El impuesto seleccionado no está activo.")
         End If
         Return ResultadoOperacion.Ok()
     End Function

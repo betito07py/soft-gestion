@@ -7,6 +7,12 @@ Imports Soft_Gestion.Domain
 ''' </summary>
 Public Partial Class FrmCategorias
 
+    Public Sub New()
+        MyBase.New()
+        InitializeComponent()
+        MaestroListaEncabezadoHelper.AplicarEncabezadoGrilla(Me, pnlListaMaestro, lblTituloGrilla, dgvCategorias, "Categorías")
+    End Sub
+
     Public Shared ReadOnly Property ClaveFormularioPermiso As String
         Get
             Return ClavesFormulario.MaestrosCategorias

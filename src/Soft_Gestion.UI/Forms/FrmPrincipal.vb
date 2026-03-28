@@ -67,6 +67,7 @@ Public Partial Class FrmPrincipal
         MenuMaestrosGrupos.Tag = ClavesFormulario.MaestrosGrupos
         MenuMaestrosMarcas.Tag = ClavesFormulario.MaestrosMarcas
         MenuMaestrosUnidadesMedida.Tag = ClavesFormulario.MaestrosUnidadesMedida
+        MenuMaestrosImpuestos.Tag = ClavesFormulario.MaestrosImpuestos
         MenuMaestrosProductos.Tag = ClavesFormulario.MaestrosProductos
         MenuStockVista.Tag = ClavesFormulario.StockModulo
         MenuComprasVista.Tag = ClavesFormulario.ComprasModulo
@@ -112,7 +113,7 @@ Public Partial Class FrmPrincipal
     Private Shared Function TieneSubitemHabilitado(menu As ToolStripMenuItem) As Boolean
         For Each ch As ToolStripItem In menu.DropDownItems
             Dim m = TryCast(ch, ToolStripMenuItem)
-            If m Is Nothing Then Continue For
+            If m Is Nothing OrElse Not m.Visible Then Continue For
             If m.HasDropDownItems Then
                 If TieneSubitemHabilitado(m) Then Return True
             ElseIf m.Enabled Then
@@ -125,7 +126,7 @@ Public Partial Class FrmPrincipal
     Private Sub MenuItemFormulario_Click(sender As Object, e As EventArgs) Handles _
         MenuSeguridadUsuarios.Click, MenuSeguridadRoles.Click, MenuSeguridadPermisos.Click, MenuSeguridadRolPermisos.Click,
         MenuMaestrosEmpresas.Click, MenuMaestrosSucursales.Click, MenuMaestrosDepositos.Click,
-        MenuMaestrosClientes.Click, MenuMaestrosProveedores.Click, MenuMaestrosCategorias.Click, MenuMaestrosSubCategorias.Click, MenuMaestrosGrupos.Click, MenuMaestrosMarcas.Click, MenuMaestrosUnidadesMedida.Click, MenuMaestrosProductos.Click,
+        MenuMaestrosClientes.Click, MenuMaestrosProveedores.Click, MenuMaestrosCategorias.Click, MenuMaestrosSubCategorias.Click, MenuMaestrosGrupos.Click, MenuMaestrosMarcas.Click, MenuMaestrosUnidadesMedida.Click, MenuMaestrosImpuestos.Click, MenuMaestrosProductos.Click,
         MenuStockVista.Click, MenuComprasVista.Click, MenuVentasVista.Click,
         MenuCuentasCobrarVista.Click, MenuCuentasPagarVista.Click, MenuTesoreriaVista.Click
 
@@ -192,6 +193,10 @@ Public Partial Class FrmPrincipal
         End If
         If clave = ClavesFormulario.MaestrosUnidadesMedida Then
             AbrirOActivarFrmUnidadesMedida(tituloVentana)
+            Return
+        End If
+        If clave = ClavesFormulario.MaestrosImpuestos Then
+            AbrirOActivarFrmImpuestos(tituloVentana)
             Return
         End If
         If clave = ClavesFormulario.MaestrosProductos Then
@@ -392,6 +397,20 @@ Public Partial Class FrmPrincipal
             End If
         Next
         Dim hijo As New FrmUnidadesMedida()
+        hijo.MdiParent = Me
+        hijo.Text = tituloVentana
+        hijo.Show()
+    End Sub
+
+    Private Sub AbrirOActivarFrmImpuestos(tituloVentana As String)
+        For Each frm As Form In MdiChildren
+            If TypeOf frm Is FrmImpuestos Then
+                frm.BringToFront()
+                frm.WindowState = FormWindowState.Normal
+                Return
+            End If
+        Next
+        Dim hijo As New FrmImpuestos()
         hijo.MdiParent = Me
         hijo.Text = tituloVentana
         hijo.Show()

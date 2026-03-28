@@ -8,6 +8,12 @@ Imports System.Windows.Forms
 ''' </summary>
 Public Partial Class FrmRoles
 
+    Public Sub New()
+        MyBase.New()
+        InitializeComponent()
+        MaestroListaEncabezadoHelper.AplicarEncabezadoGrilla(Me, pnlListaMaestro, lblTituloGrilla, dgvRoles, "Roles")
+    End Sub
+
     Public Shared ReadOnly Property ClaveFormularioPermiso As String
         Get
             Return ClavesFormulario.SeguridadRoles

@@ -98,6 +98,7 @@
     <Compile Include="Seguridad\SesionAplicacion.vb" />
     <Compile Include="Seguridad\AccesoFormulario.vb" />
     <Compile Include="Program.vb" />
+    <Compile Include="Ui\MaestroListaEncabezadoHelper.vb" />
     <Compile Include="Forms\FrmLogin.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -116,7 +117,9 @@
     <Compile Include="Forms\FrmPlaceholder.Designer.vb">
       <DependentUpon>FrmPlaceholder.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FrmPrincipal.vb" />
+    <Compile Include="Forms\FrmPrincipal.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\FrmPrincipal.Designer.vb">
       <DependentUpon>FrmPrincipal.vb</DependentUpon>
     </Compile>
@@ -204,6 +207,12 @@
     <Compile Include="Forms\FrmMarcas.Designer.vb">
       <DependentUpon>FrmMarcas.vb</DependentUpon>
     </Compile>
+    <Compile Include="Forms\FrmImpuestos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FrmImpuestos.Designer.vb">
+      <DependentUpon>FrmImpuestos.vb</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FrmUnidadesMedida.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -279,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmMarcas.resx">
       <DependentUpon>FrmMarcas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FrmImpuestos.resx">
+      <DependentUpon>FrmImpuestos.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FrmUnidadesMedida.resx">
       <DependentUpon>FrmUnidadesMedida.vb</DependentUpon>
